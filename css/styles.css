@@ -543,33 +543,48 @@ footer > .container {
   color:var(--bright-blue);
   transform: translateX(5px);
 }
-.social-links{
-  display:flex;
-  gap:14px;
-  margin-top:18px;
+/* === SOCIAL ICONS BRIGHT HOVER FIX (2025-11-06) =======================
+   Mejora el centrado y añade un efecto de brillo elegante al hover.
+======================================================================= */
+.social-links {
+  display: flex;
+  gap: 14px;
+  margin-top: 18px;
+  justify-content: center;
 }
-.social-centered{
-  width:100%;
-  justify-content:center;
-} 
-.social-link{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  width:44px;
-  height:44px;
-  background-color:rgba(255,255,255,.12);
-  border-radius:50%;
-  color:rgba(255,255,255,.9);
-  text-decoration:none;
-  transition:transform .2s ease, background-color .2s ease, color .2s ease;
-  font-size:1.2rem;
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 1.3rem;
+  line-height: 1;
+  transition: all 0.25s ease;
   backdrop-filter: blur(2px);
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.05);
 }
-.social-link:hover{
-  background-color:var(--bright-blue);
-  color:#fff;
-  transform:translateY(-3px) scale(1.1);
+
+.social-link:hover {
+  background-color: rgba(33, 124, 227, 0.25); /* fondo un poco más claro, no lo cubre */
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.85); /* brillo suave */
+  box-shadow: 0 0 10px rgba(33, 124, 227, 0.4);
+  transform: translateY(-3px) scale(1.08);
+}
+
+.social-link i {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* evita saltos */
 }
 .copyright{
   text-align:center;
@@ -618,6 +633,10 @@ footer > .container {
   }
 }
 
+.whatsapp-float::after,
+.whatsapp-float::before {
+  content: none !important;
+}
 
 .btn {
   transition: all 0.3s ease;
@@ -805,4 +824,49 @@ footer > .container {
 
 .navbar-nav .nav-link[href="nosotros.html"].active::after {
   width: 70%;
+}
+
+
+/* === NAV UNDERLINE FIX (2025-11-06) ===============================
+   Motivo: Había dos definiciones .navbar-nav .nav-link::after.
+   Una ponía left:0/bottom:-3px (subrayado desalineado) y otra left:50%/bottom:50px.
+   Unificamos: centrado al texto, pegado justo debajo, y coherente en scrolled y móvil.
+=================================================================== */
+
+.navbar-nav .nav-link {
+  position: relative;
+}
+
+.navbar-nav .nav-link::after{
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;               
+  height: 2px;
+  width: 0;
+  background: var(--bright-blue);
+  border-radius: 1px;
+  transform: translateX(-50%);
+  transition: width .25s ease;
+}
+
+.navbar-nav .nav-link:hover::after{
+  width: 100%;
+}
+
+.navbar-nav .nav-link.active::after{
+  width: 70%;
+}
+
+.custom-navbar.navbar-scrolled .navbar-nav .nav-link::after{
+  bottom: -4px;
+}
+
+@media (max-width: 991px){
+  .navbar-nav .nav-link::after{
+    bottom: -10px;
+    width: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
