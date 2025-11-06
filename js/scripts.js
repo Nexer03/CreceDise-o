@@ -289,7 +289,7 @@ function handleImageError(img) {
   img.alt = 'Imagen no disponible';
 }
 
-
+// comentario
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelectorAll('img').forEach(img => {
     img.addEventListener('error', function() {
