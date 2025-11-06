@@ -69,35 +69,37 @@ function closeRegisterModal() {
 
 
 function validateForm(form) {
-  const email = form.querySelector('#email');
-  const phone = form.querySelector('#phone');
-  const city = form.querySelector('#city');
+  const email = form.querySelector('#correo');
+  const phone = form.querySelector('#telefono');
+  const city = form.querySelector('#ciudad');
   let isValid = true;
-  
-  
+
   form.querySelectorAll('.error-message').forEach(el => el.remove());
   form.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-invalid'));
-  
- 
-  if (!email.value || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
-    showError(email, 'Por favor ingresa un correo electrónico válido');
+
+  const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const regexPhone = /^\+?\d{10,15}$/; 
+  const regexCity = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]{3,50}$/; 
+
+  if (!regexEmail.test(email.value.trim())) {
+    showError(email, 'Ingresa un correo electrónico válido.');
     isValid = false;
   }
-  
- 
-  if (!phone.value || phone.value.trim().length < 10) {
-    showError(phone, 'Por favor ingresa un número telefónico válido');
+
+  if (!regexPhone.test(phone.value.trim())) {
+    showError(phone, 'Ingresa un número telefónico válido (solo números y signo +).');
     isValid = false;
   }
-  
-  
-  if (!city.value || city.value.trim().length < 3) {
-    showError(city, 'Por favor ingresa tu ciudad');
+
+  if (!regexCity.test(city.value.trim())) {
+    showError(city, 'La ciudad solo puede contener letras y espacios (3 a 50 caracteres).');
     isValid = false;
   }
-  
+
   return isValid;
 }
+
+
 
 function showError(input, message) {
   input.classList.add('is-invalid');
@@ -110,36 +112,44 @@ function showError(input, message) {
 
 function submitForm(form) {
   if (!validateForm(form)) return false;
-  
-  const formData = {
-    email: form.querySelector('#email').value,
-    phone: form.querySelector('#phone').value,
-    city: form.querySelector('#city').value,
-    timestamp: new Date().toISOString()
-  };
-  
-  
-  console.log('Datos del formulario:', formData);
-  
-  
+
   const submitBtn = form.querySelector('.register-btn');
   const originalText = submitBtn.textContent;
-  
-  submitBtn.innerHTML = '<i class="fas fa-check me-2"></i>Registro Exitoso';
   submitBtn.disabled = true;
-  
- 
-  setTimeout(() => {
-    closeRegisterModal();
-    
-    setTimeout(() => {
+
+  const datos = new FormData(form);
+
+  fetch('php/registrar.php', {
+    method: 'POST',
+    body: datos
+  })
+  .then(res => res.text())
+  .then(msg => {
+    console.log('Respuesta PHP:', msg);
+
+    if (msg.trim().startsWith('EXITO') || msg.trim().toUpperCase().includes('EXITO')) {
+      submitBtn.innerHTML = 'Registro Exitoso';
+      form.reset();
+      setTimeout(() => {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        closeRegisterModal();
+      }, 1500);
+    } else {
+      alert(msg);
       submitBtn.textContent = originalText;
       submitBtn.disabled = false;
-    }, 1000);
-  }, 2000);
-  
+    }
+  })
+  .catch(() => {
+    alert('Error de red al registrar.');
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+  });
+
   return false;
 }
+
 
 
 function initSmoothScroll() {
@@ -278,10 +288,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 document.addEventListener('submit', function(e) {
-  if (e.target.tagName === 'FORM' && !e.target.hasAttribute('novalidate')) {
-    e.preventDefault();
-  }
-});
+ if (e.target.tagName === 'FORM' && !e.target.hasAttribute('novalidate')) {
+  e.preventDefault();
+ }
+ });
 
 
 function handleImageError(img) {
