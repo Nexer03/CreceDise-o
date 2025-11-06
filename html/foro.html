@@ -531,6 +531,8 @@
             header {
                 height: 150px;
             }
+        
+
         }
         
         @media (max-width: 480px) {
@@ -568,6 +570,7 @@
             header {
                 height: 120px;
             }
+            
         }
     </style>
 </head>
@@ -692,17 +695,14 @@
         // Smooth Scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    document.querySelector('nav ul').classList.remove('show');
-                }
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({ top: targetElement.offsetTop - 80, behavior: 'smooth' });
+                document.querySelector('nav ul').classList.remove('show');
+            }
             });
         });
 
@@ -710,17 +710,66 @@
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
             if (window.scrollY > 100) {
-                header.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
-                header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+            header.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+            header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
             } else {
-                header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+            header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
             }
         });
 
-        // --- INICIO DE CONEXIÓN CON EL BACKEND DEL FORO ---
+        // --- BACKEND DEL FORO ---
 
-        const foroBody = document.getElementById('foroBody');
+        const foroBody  = document.getElementById('foroBody');
+        const PAGE_SIZE = 10;
+        let offset      = 0;
+        let fin         = false;
+        let cargando    = false;
+
+        function renderRespuesta(item) {
+            const r = document.createElement('div');
+            r.className = 'reply';
+            r.style.margin = '10px 0 0 0';
+            r.style.padding = '12px 14px';
+            r.style.background = 'var(--light-bg)';
+            r.style.borderRadius = '8px';
+
+            const head = document.createElement('div');
+            head.style.display = 'flex';
+            head.style.justifyContent = 'space-between';
+            head.style.marginBottom = '6px';
+
+            const a = document.createElement('strong');
+            a.textContent = item.autor;
+
+            const f = document.createElement('span');
+            f.style.fontSize = '0.85rem';
+            f.style.color = 'var(--dark-gray)';
+            f.textContent = new Date(item.creado_en).toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' });
+
+            head.appendChild(a);
+            head.appendChild(f);
+
+            const c = document.createElement('div');
+            c.textContent = item.contenido;
+
+            r.appendChild(head);
+            r.appendChild(c);
+            return r;
+        }
+
+        async function cargarRespuestas(mensajeId, contenedor) {
+            try {
+            const res = await fetch(`../php/foro_listar_respuestas.php?mensaje_id=${mensajeId}`);
+            const data = await res.json();
+            if (!data.ok) return;
+
+            contenedor.innerHTML = '';
+            data.items.forEach(it => contenedor.appendChild(renderRespuesta(it)));
+            } catch (e) {
+            // Error al cargar respuestas
+            }
+        }
 
         function renderMensaje(item) {
             const wrap = document.createElement('div');
@@ -736,8 +785,8 @@
             const fecha = document.createElement('span');
             fecha.className = 'message-date';
             fecha.textContent = new Date(item.creado_en).toLocaleString('es-MX', {
-                dateStyle: 'medium',
-                timeStyle: 'short'
+            dateStyle: 'medium',
+            timeStyle: 'short'
             });
 
             header.appendChild(autor);
@@ -747,64 +796,131 @@
             contenido.className = 'message-content';
             contenido.textContent = item.contenido;
 
+            const repliesBox = document.createElement('div');
+            repliesBox.className = 'replies';
+            repliesBox.style.marginTop = '10px';
+            repliesBox.style.paddingLeft = '10px';
+            repliesBox.style.borderLeft = '3px solid var(--medium-gray)';
+
+            const replyToggle = document.createElement('button');
+            replyToggle.type = 'button';
+            replyToggle.className = 'btn';
+            replyToggle.style.marginTop = '10px';
+            replyToggle.textContent = 'Responder';
+
+            const replyForm = document.createElement('form');
+            replyForm.style.display = 'none';
+            replyForm.style.marginTop = '10px';
+
+            replyForm.innerHTML = `
+            <div class="form-group">
+                <label>Tu nombre</label>
+                <input type="text" name="autor" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Tu respuesta</label>
+                <textarea name="contenido" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="btn">Publicar respuesta</button>
+            `;
+
+            replyToggle.addEventListener('click', () => {
+            replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+            });
+
+            replyForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const autor = replyForm.querySelector('input[name="autor"]').value.trim();
+            const contenido = replyForm.querySelector('textarea[name="contenido"]').value.trim();
+            if (autor.length < 2 || contenido.length < 3) {
+                alert('Completa los campos correctamente.');
+                return;
+            }
+            const fd = new FormData();
+            fd.append('mensaje_id', item.id);
+            fd.append('autor', autor);
+            fd.append('contenido', contenido);
+
+            try {
+                const res = await fetch('../php/foro_respuestas.php', { method: 'POST', body: fd });
+                const data = await res.json();
+                if (data.ok) {
+                repliesBox.appendChild(renderRespuesta(data));
+                replyForm.reset();
+                replyForm.style.display = 'none';
+                } else {
+                alert('No se pudo guardar la respuesta.');
+                }
+            } catch (_) {
+                alert('Error al enviar la respuesta.');
+            }
+            });
+
             wrap.appendChild(header);
             wrap.appendChild(contenido);
+            wrap.appendChild(repliesBox);
+            wrap.appendChild(replyToggle);
+            wrap.appendChild(replyForm);
+
+            // Cargar respuestas existentes
+            cargarRespuestas(item.id, repliesBox);
+
             return wrap;
         }
 
         async function cargarMensajes() {
+            if (cargando || fin) return;
+            cargando = true;
             try {
-                const res = await fetch('../php/foro_listar.php?limit=20');
-                const data = await res.json();
-                if (!data.ok) return;
+            const res = await fetch(`../php/foro_listar.php?limit=${PAGE_SIZE}&offset=${offset}`);
+            const data = await res.json();
+            if (!data.ok) return;
 
-                const empty = document.querySelector('.empty-foro');
-                if (data.items.length && empty) empty.remove();
+            const empty = document.querySelector('.empty-foro');
+            if (data.items.length && empty) empty.remove();
 
-                data.items.forEach(item => foroBody.appendChild(renderMensaje(item)));
-            } catch (err) {
-                console.error('Error al cargar mensajes', err);
+            data.items.forEach(item => foroBody.appendChild(renderMensaje(item)));
+            offset += data.items.length;
+            if (data.items.length < PAGE_SIZE) fin = true;
+            } finally {
+            cargando = false;
             }
         }
 
         document.addEventListener('DOMContentLoaded', cargarMensajes);
 
-       
+        // Publicar comentario principal
         document.getElementById('commentForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-
-            const authorName = document.getElementById('authorName').value.trim();
+            const authorName     = document.getElementById('authorName').value.trim();
             const commentContent = document.getElementById('commentContent').value.trim();
 
             if (authorName.length < 2 || commentContent.length < 3) {
-                alert('Por favor, completa los campos correctamente.');
-                return;
+            alert('Por favor, completa los campos correctamente.');
+            return;
             }
 
-            const formData = new FormData();
-            formData.append('autor', authorName);
-            formData.append('contenido', commentContent);
+            const fd = new FormData();
+            fd.append('autor', authorName);
+            fd.append('contenido', commentContent);
 
             try {
-                const res = await fetch('../php/foro_guardar.php', {
-                    method: 'POST',
-                    body: formData
-                });
-                const data = await res.json();
-
-                if (data.ok) {
-                    const empty = document.querySelector('.empty-foro');
-                    if (empty) empty.remove();
-                    foroBody.prepend(renderMensaje(data));
-                    this.reset();
-                } else {
-                    alert('No se pudo guardar el mensaje.');
-                }
-            } catch (err) {
-                alert('Error al enviar el mensaje.');
+            const res  = await fetch('../php/foro_guardar.php', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (data.ok) {
+                const empty = document.querySelector('.empty-foro');
+                if (empty) empty.remove();
+                foroBody.prepend(renderMensaje(data));
+                this.reset();
+            } else {
+                alert('No se pudo guardar el mensaje.');
+            }
+            } catch (_) {
+            alert('Error al enviar el mensaje.');
             }
         });
         </script>
+
 
 </body>
 </html>
