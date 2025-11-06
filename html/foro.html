@@ -693,18 +693,14 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                
                 const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
+                if (targetId === '#') return;
                 const targetElement = document.querySelector(targetId);
-                if(targetElement) {
+                if (targetElement) {
                     window.scrollTo({
                         top: targetElement.offsetTop - 80,
                         behavior: 'smooth'
                     });
-                    
-                    // Close mobile menu if open
                     document.querySelector('nav ul').classList.remove('show');
                 }
             });
@@ -722,51 +718,93 @@
             }
         });
 
-        // Formulario de comentarios
-        document.getElementById('commentForm').addEventListener('submit', function(e) {
+        // --- INICIO DE CONEXIÓN CON EL BACKEND DEL FORO ---
+
+        const foroBody = document.getElementById('foroBody');
+
+        function renderMensaje(item) {
+            const wrap = document.createElement('div');
+            wrap.className = 'message';
+
+            const header = document.createElement('div');
+            header.className = 'message-header';
+
+            const autor = document.createElement('span');
+            autor.className = 'message-author';
+            autor.textContent = item.autor;
+
+            const fecha = document.createElement('span');
+            fecha.className = 'message-date';
+            fecha.textContent = new Date(item.creado_en).toLocaleString('es-MX', {
+                dateStyle: 'medium',
+                timeStyle: 'short'
+            });
+
+            header.appendChild(autor);
+            header.appendChild(fecha);
+
+            const contenido = document.createElement('div');
+            contenido.className = 'message-content';
+            contenido.textContent = item.contenido;
+
+            wrap.appendChild(header);
+            wrap.appendChild(contenido);
+            return wrap;
+        }
+
+        async function cargarMensajes() {
+            try {
+                const res = await fetch('../php/foro_listar.php?limit=20');
+                const data = await res.json();
+                if (!data.ok) return;
+
+                const empty = document.querySelector('.empty-foro');
+                if (data.items.length && empty) empty.remove();
+
+                data.items.forEach(item => foroBody.appendChild(renderMensaje(item)));
+            } catch (err) {
+                console.error('Error al cargar mensajes', err);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', cargarMensajes);
+
+       
+        document.getElementById('commentForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
-            const authorName = document.getElementById('authorName').value;
-            const commentContent = document.getElementById('commentContent').value;
-            
-            if (authorName && commentContent) {
-                // Remover mensaje de foro vacío si existe
-                const emptyForo = document.querySelector('.empty-foro');
-                if (emptyForo) {
-                    emptyForo.remove();
-                }
-                
-                // Crear nuevo mensaje
-                const newMessage = document.createElement('div');
-                newMessage.className = 'message';
-                
-                // Obtener fecha actual
-                const currentDate = new Date();
-                const formattedDate = currentDate.toLocaleDateString('es-ES', {
-                    day: 'numeric',
-                    month: 'long'
+
+            const authorName = document.getElementById('authorName').value.trim();
+            const commentContent = document.getElementById('commentContent').value.trim();
+
+            if (authorName.length < 2 || commentContent.length < 3) {
+                alert('Por favor, completa los campos correctamente.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('autor', authorName);
+            formData.append('contenido', commentContent);
+
+            try {
+                const res = await fetch('../php/foro_guardar.php', {
+                    method: 'POST',
+                    body: formData
                 });
-                
-                newMessage.innerHTML = `
-                    <div class="message-header">
-                        <span class="message-author">${authorName}</span>
-                        <span class="message-date">${formattedDate}</span>
-                    </div>
-                    <div class="message-content">
-                        ${commentContent}
-                    </div>
-                `;
-                
-                // Agregar el mensaje al inicio del foro
-                document.getElementById('foroBody').prepend(newMessage);
-                
-                // Limpiar el formulario
-                document.getElementById('commentForm').reset();
-                
-                // Desplazar hacia el nuevo mensaje
-                newMessage.scrollIntoView({ behavior: 'smooth' });
+                const data = await res.json();
+
+                if (data.ok) {
+                    const empty = document.querySelector('.empty-foro');
+                    if (empty) empty.remove();
+                    foroBody.prepend(renderMensaje(data));
+                    this.reset();
+                } else {
+                    alert('No se pudo guardar el mensaje.');
+                }
+            } catch (err) {
+                alert('Error al enviar el mensaje.');
             }
         });
-    </script>
+        </script>
+
 </body>
 </html>
