@@ -879,3 +879,6 @@ body.cursos-page{ padding-top: var(--nav-height); }
 .hero.hero-cursos .hero-content{
   margin-top: 0; /* prevenir empujes extra */
 }
+body {
+  padding-top: 200px; /* Ajusta según la altura real del navbar */
+}
