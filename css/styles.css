@@ -1074,3 +1074,12 @@ textarea.form-control {
     font-size: 1.8rem;
   }
 }
+.whatsapp-float,
+.whatsapp-float:hover,
+.whatsapp-float:focus,
+.whatsapp-float:active {
+  color: #fff !important;
+  text-decoration: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
