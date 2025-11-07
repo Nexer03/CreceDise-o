@@ -940,254 +940,134 @@
     <i class="fab fa-whatsapp"></i>
   </a>
 
-  <!-- JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-  <script>
-    AOS.init();
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+AOS.init();
 
-    // Navbar sticky + hide/show suave (consistente)
-    (function(){
-      const navbar = document.getElementById('mainNavbar');
-      let lastY = window.scrollY;
-      function onScroll(){
-        const y = window.scrollY;
-        if(y > 120){ navbar.classList.add('navbar-scrolled'); }
-        else{ navbar.classList.remove('navbar-scrolled'); }
-        if(y > lastY && y > 180){ navbar.classList.add('navbar-hidden'); }
-        else{ navbar.classList.remove('navbar-hidden'); }
-        lastY = y;
-      }
-      window.addEventListener('scroll', onScroll, {passive:true});
-    })();
+// Navbar sticky
+(function(){
+  const navbar = document.getElementById('mainNavbar');
+  let lastY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    navbar.classList.toggle('navbar-scrolled', y > 120);
+    navbar.classList.toggle('navbar-hidden', y > lastY && y > 180);
+    lastY = y;
+  }, { passive: true });
+})();
 
-    // Filtrado y búsqueda
-    
-     
-        // Mobile menu toggle
-        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
-            document.getElementById('main-nav').classList.toggle('active');
-        });
-        
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', function() {
-                document.getElementById('main-nav').classList.remove('active');
-            });
-        });
-        
-        // Tab functionality
-        document.querySelectorAll('.tab-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                // Remove active class from all buttons and contents
-                document.querySelectorAll('.tab-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                // Show corresponding content
-                const tabId = this.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
-                
-                // Reset subcategory to first option when changing main tab
-                const firstSubcategory = document.querySelector(`#${tabId} .subcategory-btn`);
-                if (firstSubcategory) {
-                    firstSubcategory.click();
-                }
-                
-                // Reset search and filters
-                resetSearchAndFilters();
-            });
-        });
-        
-        // Subcategory functionality
-        document.querySelectorAll('.subcategory-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const parentTab = this.closest('.tab-content').id;
-                
-                // Remove active class from all buttons in this tab
-                document.querySelectorAll(`#${parentTab} .subcategory-btn`).forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                
-                // Remove active class from all contents in this tab
-                document.querySelectorAll(`#${parentTab} .subcategory-content`).forEach(content => {
-                    content.classList.remove('active');
-                });
-                
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                // Show corresponding content
-                const subcategoryId = this.getAttribute('data-subcategory');
-                document.getElementById(subcategoryId).classList.add('active');
-                
-                // Reset search and filters
-                resetSearchAndFilters();
-            });
-        });
-        
-        // Filter functionality
-        document.querySelectorAll('.filter-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                // Remove active class from all filter buttons
-                document.querySelectorAll('.filter-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                // Apply filter
-                const filter = this.getAttribute('data-filter');
-                filterCourses(filter);
-            });
-        });
-        
-        // Search functionality
-        const searchInput = document.querySelector('.search-input');
-        const searchBtn = document.querySelector('.search-btn');
-        
-        searchInput.addEventListener('input', function() {
-            searchCourses(this.value);
-        });
-        
-        searchBtn.addEventListener('click', function() {
-            searchCourses(searchInput.value);
-        });
-        
-        // Search and filter functions
-        function searchCourses(searchTerm) {
-            const activeTab = document.querySelector('.tab-content.active');
-            const activeSubcategory = activeTab.querySelector('.subcategory-content.active');
-            const courseCards = activeSubcategory.querySelectorAll('.course-card');
-            const filter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
-            
-            courseCards.forEach(card => {
-                const title = card.querySelector('h3').textContent.toLowerCase();
-                const description = card.querySelector('.course-description').textContent.toLowerCase();
-                const category = card.getAttribute('data-category');
-                
-                const matchesSearch = title.includes(searchTerm.toLowerCase()) || 
-                                     description.includes(searchTerm.toLowerCase());
-                
-                const matchesFilter = filter === 'all' || category.includes(filter);
-                
-                if (matchesSearch && matchesFilter) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            
-            // Show no results message if needed
-            showNoResultsMessage(activeSubcategory);
-        }
-        
-        function filterCourses(filter) {
-            const activeTab = document.querySelector('.tab-content.active');
-            const activeSubcategory = activeTab.querySelector('.subcategory-content.active');
-            const courseCards = activeSubcategory.querySelectorAll('.course-card');
-            const searchTerm = searchInput.value.toLowerCase();
-            
-            courseCards.forEach(card => {
-                const title = card.querySelector('h3').textContent.toLowerCase();
-                const description = card.querySelector('.course-description').textContent.toLowerCase();
-                const category = card.getAttribute('data-category');
-                
-                const matchesSearch = title.includes(searchTerm) || 
-                                     description.includes(searchTerm);
-                
-                const matchesFilter = filter === 'all' || category.includes(filter);
-                
-                if (matchesSearch && matchesFilter) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            
-            // Show no results message if needed
-            showNoResultsMessage(activeSubcategory);
-        }
-        
-        function showNoResultsMessage(container) {
-            const visibleCards = container.querySelectorAll('.course-card[style="display: flex"]');
-            let noResultsMsg = container.querySelector('.no-results');
-            
-            if (visibleCards.length === 0) {
-                if (!noResultsMsg) {
-                    noResultsMsg = document.createElement('div');
-                    noResultsMsg.className = 'no-results';
-                    noResultsMsg.textContent = 'No se encontraron cursos que coincidan con tu búsqueda.';
-                    container.appendChild(noResultsMsg);
-                }
-            } else if (noResultsMsg) {
-                noResultsMsg.remove();
-            }
-        }
-        
-        function resetSearchAndFilters() {
-            searchInput.value = '';
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
-            
-            const activeTab = document.querySelector('.tab-content.active');
-            const activeSubcategory = activeTab.querySelector('.subcategory-content.active');
-            const courseCards = activeSubcategory.querySelectorAll('.course-card');
-            
-            courseCards.forEach(card => {
-                card.style.display = 'flex';
-            });
-            
-            // Remove no results message if exists
-            const noResultsMsg = activeSubcategory.querySelector('.no-results');
-            if (noResultsMsg) {
-                noResultsMsg.remove();
-            }
-        }
-        
-        // Función para navegar a cursos de IDEFT
-        function navigateToIDEFT() {
-            // Activar la pestaña de cursos gratuitos
-            document.querySelector('.tab-btn[data-tab="gratuitos"]').click();
-            
-            // Esperar un momento y luego activar la subcategoría presencial
-            setTimeout(() => {
-                document.querySelector('.subcategory-btn[data-subcategory="presencial-gratuito"]').click();
-                
-                // Desplazarse a la sección de IDEFT
-                setTimeout(() => {
-                    const ideftCards = document.querySelectorAll('.course-card');
-                    for (let card of ideftCards) {
-                        if (card.querySelector('h3').textContent.includes('IDEFT')) {
-                            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            break;
-                        }
-                    }
-                }, 500);
-            }, 500);
-        }
-        
-        // Check for URL hash and activate corresponding tab
-        window.addEventListener('DOMContentLoaded', function() {
-            const hash = window.location.hash;
-            if (hash) {
-                const tabButton = document.querySelector(`.tab-btn[data-tab="${hash.substring(1)}"]`);
-                if (tabButton) {
-                    tabButton.click();
-                }
-            }
-        });
-    
-  </script>
-  
+// --- FILTROS Y BÚSQUEDA ---
+const searchInput = document.querySelector('.search-input');
+const searchBtn = document.querySelector('.search-btn');
+const filterButtons = document.querySelectorAll('.filter-btn');
+
+
+function applySearchAndFilter() {
+  const searchTerm = searchInput.value.toLowerCase().trim();
+  const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+  const activeTab = document.querySelector('.tab-content.active');
+  const activeSub = activeTab.querySelector('.subcategory-content.active');
+  const cards = activeSub.querySelectorAll('.course-card');
+
+  let visibleCount = 0;
+
+  cards.forEach(card => {
+    const text = (card.querySelector('h3').textContent + ' ' + card.querySelector('.course-description').textContent).toLowerCase();
+    const categories = card.dataset.category.toLowerCase();
+
+    const matchesSearch = !searchTerm || text.includes(searchTerm);
+    const matchesFilter = activeFilter === 'all' || categories.includes(activeFilter);
+    const visible = matchesSearch && matchesFilter;
+
+    card.style.display = visible ? 'flex' : 'none';
+    if (visible) visibleCount++;
+  });
+
+  showNoResultsMessage(activeSub, visibleCount === 0);
+}
+
+
+function resetSearchAndFilters() {
+  searchInput.value = '';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+  applySearchAndFilter();
+}
+
+
+function showNoResultsMessage(container, show) {
+  let msg = container.querySelector('.no-results');
+  if (show) {
+    if (!msg) {
+      msg = document.createElement('div');
+      msg.className = 'no-results';
+      msg.textContent = 'No se encontraron cursos que coincidan con tu búsqueda.';
+      container.appendChild(msg);
+    }
+  } else if (msg) {
+    msg.remove();
+  }
+}
+
+
+filterButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applySearchAndFilter();
+  });
+});
+searchBtn.addEventListener('click', applySearchAndFilter);
+searchInput.addEventListener('input', applySearchAndFilter);
+
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    const firstSub = document.querySelector(`#${btn.dataset.tab} .subcategory-btn`);
+    if (firstSub) firstSub.click();
+    resetSearchAndFilters();
+  });
+});
+
+// Subcategorías
+document.querySelectorAll('.subcategory-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const parent = btn.closest('.tab-content');
+    parent.querySelectorAll('.subcategory-btn').forEach(b => b.classList.remove('active'));
+    parent.querySelectorAll('.subcategory-content').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.subcategory).classList.add('active');
+    resetSearchAndFilters();
+  });
+});
+
+// IDEFT scroll helper
+window.navigateToIDEFT = function() {
+  document.querySelector('.tab-btn[data-tab="gratuitos"]').click();
+  setTimeout(() => {
+    document.querySelector('.subcategory-btn[data-subcategory="presencial-gratuito"]').click();
+    setTimeout(() => {
+      const card = [...document.querySelectorAll('.course-card h3')].find(h3 => h3.textContent.includes('IDEFT'));
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 300);
+  }, 300);
+};
+
+// Hash navigation (#gratuitos, #paga)
+window.addEventListener('DOMContentLoaded', () => {
+  const hash = location.hash.slice(1);
+  if (hash) {
+    const tab = document.querySelector(`.tab-btn[data-tab="${hash}"]`);
+    if (tab) tab.click();
+  }
+});
+</script>
+
+
 </body>
 </html>
