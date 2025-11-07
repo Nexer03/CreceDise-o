@@ -873,12 +873,10 @@ body.cursos-page{ padding-top: var(--nav-height); }
   display: grid;
   place-items: center;
   padding-top: calc(40px + 1vh); /* extra colchón para evitar cualquier solape */
-  padding-bottom: 100px;
+  padding-bottom: 80px;
+  padding-top: 280px  ;
 }
 
 .hero.hero-cursos .hero-content{
   margin-top: 0; /* prevenir empujes extra */
-}
-body {
-  padding-top: 200px; /* Ajusta según la altura real del navbar */
 }
