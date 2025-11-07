@@ -15,13 +15,13 @@ function updateHeader() {
     navbar.classList.add('navbar-scrolled');
   } else {
     navbar.classList.remove('navbar-scrolled');
-  }
+  } 
   
-  if (scrollTop > lastScrollTop && scrollTop > 100) {
-    navbar.classList.add('navbar-hidden');
-  } else {
-    navbar.classList.remove('navbar-hidden');
-  }
+  if (scrollTop > lastScrollTop && scrollTop > 100 && lastScrollTop !== 0) {
+  navbar.classList.add('navbar-hidden');
+} else {
+  navbar.classList.remove('navbar-hidden');
+}
   
   lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
   ticking = false;
