@@ -3,954 +3,263 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mi Perfil - Crece Diseño</title>
-  
+  <title>Mi Perfil – Crece Diseño</title>
+
+  <!-- Tipografías -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- AOS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet"/>
+
+   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet"/>
-  <style>
-    :root {
-      --primary-color: #4a6cf7;
-      --secondary-color: #6a75f8;
-      --accent-color: #8a63f9;
-      --text-dark: #1e1e2c;
-      --text-light: #6c757d;
-      --bg-light: #f8f9fa;
-      --white: #ffffff;
-      --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    }
-    
-    body {
-      font-family: 'Quicksand', sans-serif;
-      color: var(--text-dark);
-      background-color: var(--bg-light);
-      line-height: 1.6;
-    }
-    
-    h1, h2, h3, h4, h5, h6 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 600;
-    }
-    
-    /* Header/Navbar */
-    .navbar-nav .nav-link[href="nosotros.html"].active {
-  color: var(--bright-blue);
-  background-color: rgba(33, 124, 227, 0.15);
-}
 
-.navbar-nav .nav-link[href="nosotros.html"].active::after {
-  width: 70%;
-}
-
-
-/* === NAV UNDERLINE FIX (2025-11-06) ===============================
-   Motivo: Había dos definiciones .navbar-nav .nav-link::after.
-   Una ponía left:0/bottom:-3px (subrayado desalineado) y otra left:50%/bottom:50px.
-   Unificamos: centrado al texto, pegado justo debajo, y coherente en scrolled y móvil.
-=================================================================== */
-
-.navbar-nav .nav-link {
-  position: relative;
-}
-
-.navbar-nav .nav-link::after{
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -6px;               
-  height: 2px;
-  width: 0;
-  background: var(--bright-blue);
-  border-radius: 1px;
-  transform: translateX(-50%);
-  transition: width .25s ease;
-}
-
-.navbar-nav .nav-link:hover::after{
-  width: 100%;
-}
-
-.navbar-nav .nav-link.active::after{
-  width: 70%;
-}
-
-.custom-navbar.navbar-scrolled .navbar-nav .nav-link::after{
-  bottom: -4px;
-}
-
-@media (max-width: 991px){
-  #mainNav {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: #fff;
-    padding: 10px 0;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    z-index: 1001;
-  }
-
-  #mainNav.show { display: block; }
-
-  #mainNav .navbar-nav {
-    flex-direction: column;
-    align-items: stretch !important;
-  }
-
-  #mainNav .nav-link {
-    font-size: 1rem;         
-    padding: 0.6rem 1rem !important; 
-    margin: 0.15rem 0;
-    text-align: center;
-    border-radius: 8px;
-    width: 100%;
-  }
-
-
-  #mainNav .nav-link::after {
-    display: none !important;
-  }
-} 
-.foro-container {
-  max-width: 800px;
-  margin: 0 auto;
-  background-color: var(--white);
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.foro-header {
-  background: linear-gradient(135deg, var(--bright-blue), var(--dark-purple));
-  color: var(--white);
-  padding: 20px;
-  text-align: center;
-}
-
-.foro-header h2 {
-  margin-bottom: 0;
-  color: var(--white);
-}
-
-.custom-navbar{
-  height:200px;
-  background-color:rgba(255,255,255,.95);
-  transition:all .4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  display:flex;align-items:center;
-  transform: translateY(0);
-  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
-}
-.custom-navbar.navbar-hidden {
-  transform: translateY(-100%);
-}
-.custom-navbar.navbar-scrolled {
-  height: 80px;
-  background-color:rgba(255,255,255,.98);
-  box-shadow:0 5px 20px rgba(0,0,0,.1);
-}
-.custom-navbar.navbar-scrolled .brand-logo {
-  height: 60px;
-}
-
-
-.navbar-nav .nav-link{
-  color:var(--dark-blue);
-  font-family:'Quicksand',sans-serif;
-  font-weight:600; 
-  font-size: 1.15rem; 
-  position:relative;
-  transition: all .3s ease;
-  padding: 0.8rem 1.2rem !important; 
-  margin: 0 0.3rem; 
-  border-radius: 8px; 
-  display: inline-block; 
-}
-
-.navbar-nav .nav-link:hover{
-  color:var(--bright-blue);
-  background-color: rgba(33, 124, 227, 0.1);
-  transform: translateY(-2px);
-}
-
-
-.navbar-nav .nav-link::after{
-  content: "";
-  position: absolute;
-  left: 50%; 
-  bottom: 50px; 
-  height: 2px;
-  width: 0;
-  background: var(--bright-blue);
-  transition: all .3s ease;
-  transform: translateX(-50%); 
-  border-radius: 1px;
-}
-
-.navbar-nav .nav-link:hover::after{
-  width: 100%; 
-}
-
-
-.navbar-nav .nav-link.active {
-  color: var(--bright-blue);
-  background-color: rgba(33, 124, 227, 0.15);
-}
-
-.navbar-nav .nav-link.active::after {
-  width: 70%; 
-}
-
-
-.custom-navbar.navbar-scrolled .navbar-nav .nav-link {
-  font-size: 1.1rem; 
-  padding: 0.6rem 1rem !important;
-}
-
-.custom-navbar.navbar-scrolled .navbar-nav .nav-link::after {
-  bottom: 10px; 
-}
-
-
-@media (max-width: 991px) {
-  .navbar-nav .nav-link {
-    font-size: 1.2rem; 
-    padding: 1rem 1.5rem !important;
-    margin: 0.2rem 0;
-    text-align: center;
-    border-radius: 12px;
-    display: block; 
-    width: 100%;
-  }
+  <!-- Estilos del sitio (mismos de index) -->
+  <link rel="stylesheet" href="../css/styles.css" />
   
-  .navbar-nav .nav-link:hover {
-    background-color: rgba(33, 124, 227, 0.15);
-  }
-  
-  .navbar-nav .nav-link::after {
-    bottom: 15px; 
-    width: 60% !important; 
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  .custom-navbar.navbar-scrolled .navbar-nav .nav-link {
-    font-size: 1.15rem;
-    padding: 0.8rem 1.2rem !important;
-  }
-  
-  .custom-navbar.navbar-scrolled .navbar-nav .nav-link::after {
-    bottom: 12px; 
-  }
-}
-
-.brand-logo{
-  height:140px;
-  width:auto;
-  display:block;
-  transition: all .4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.brand-left{
-  padding-left:0;
-  margin-left:0;
-  transform:translateX(-6px);
-}
-.navbar-nav .nav-link{
-  color:var(--dark-blue);
-  font-family:'Quicksand',sans-serif;
-  font-weight:500;
-  position:relative;
-  transition: color .3s ease;
-}
-.navbar-nav .nav-link:hover{color:var(--bright-blue)}
-.navbar-nav .nav-link::after{
-  content:"";position:absolute;left:0;bottom:-3px;height:2px;width:0;
-  background:var(--bright-blue);transition:width .25s ease
-}
-.navbar-nav .nav-link:hover::after{width:100%}
-
-
-.scrolled .custom-navbar{
-  background-color:rgba(255,255,255,.98);
-  box-shadow:0 5px 20px rgba(0,0,0,.1);
-}
-    
-    /* Profile Header */
-    .profile-header {
-      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-      color: white;
-      padding: 4rem 0 2rem;
-      margin-bottom: 2rem;
-      position: relative;
-      overflow: hidden;
-      padding-top: 300px;
-    }
-    
-    .profile-header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffffff" opacity="0.1"><path d="M500 50c100 0 200-25 300-25s200 25 300 25v50H0V50c100 0 200-25 300-25S500 50 500 50z"/></svg>') no-repeat bottom;
-      background-size: cover;
-    }
-    
-    .profile-container {
-      position: relative;
-      z-index: 1;
-    }
-    
-    .profile-avatar {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      border: 5px solid white;
-      object-fit: cover;
-      box-shadow: var(--shadow);
-    }
-    
-    .profile-name {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin: 1rem 0 0.5rem;
-    }
-    
-    .profile-title {
-      font-size: 1.2rem;
-      opacity: 0.9;
-      margin-bottom: 1rem;
-    }
-    
-    .profile-stats {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin: 1.5rem 0;
-    }
-    
-    .stat-item {
-      text-align: center;
-    }
-    
-    .stat-number {
-      font-size: 1.5rem;
-      font-weight: 700;
-      display: block;
-    }
-    
-    .stat-label {
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-    
-    .profile-actions {
-      margin-top: 1.5rem;
-    }
-    
-    .btn-edit {
-      background-color: white;
-      color: var(--primary-color);
-      border: none;
-      border-radius: 50px;
-      padding: 0.5rem 1.5rem;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-    
-    .btn-edit:hover {
-      background-color: var(--bg-light);
-      transform: translateY(-2px);
-    }
-    
-    /* Main Content */
-    .profile-content {
-      padding: 2rem 0;
-    }
-    
-    .card {
-      border: none;
-      border-radius: 12px;
-      box-shadow: var(--shadow);
-      margin-bottom: 1.5rem;
-      transition: transform 0.3s;
-    }
-    
-    .card:hover {
-      transform: translateY(-5px);
-    }
-    
-    .card-header {
-      background-color: white;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-      padding: 1.25rem 1.5rem;
-      border-radius: 12px 12px 0 0 !important;
-    }
-    
-    .card-title {
-      font-weight: 600;
-      margin: 0;
-      color: var(--text-dark);
-    }
-    
-    .card-body {
-      padding: 1.5rem;
-    }
-    
-    /* About Section */
-    .about-text {
-      line-height: 1.7;
-      color: var(--text-light);
-    }
-    
-    /* Skills Section */
-    .skill-item {
-      margin-bottom: 1rem;
-    }
-    
-    .skill-name {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 0.5rem;
-    }
-    
-    .skill-bar {
-      height: 8px;
-      background-color: #e9ecef;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    
-    .skill-level {
-      height: 100%;
-      background: linear-gradient(to right, var(--primary-color), var(--accent-color));
-      border-radius: 4px;
-    }
-    
-    /* Courses Section */
-    .course-card {
-      border-radius: 10px;
-      overflow: hidden;
-      transition: all 0.3s;
-      height: 100%;
-    }
-    
-    .course-img {
-      height: 140px;
-      background-color: var(--primary-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 3rem;
-    }
-    
-    .course-info {
-      padding: 1.25rem;
-    }
-    
-    .course-title {
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-    
-    .course-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      color: var(--text-light);
-      margin-bottom: 0.75rem;
-    }
-    
-    .progress {
-      height: 6px;
-      margin-bottom: 1rem;
-    }
-    
-    .badge-completed {
-      background-color: #28a745;
-    }
-    
-    .badge-in-progress {
-      background-color: var(--primary-color);
-    }
-    
-    /* Experience Section */
-    .timeline {
-      position: relative;
-      padding-left: 2rem;
-    }
-    
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 7px;
-      top: 0;
-      bottom: 0;
-      width: 2px;
-      background-color: #e9ecef;
-    }
-    
-    .timeline-item {
-      position: relative;
-      margin-bottom: 2rem;
-    }
-    
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -2rem;
-      top: 5px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: var(--primary-color);
-    }
-    
-    .timeline-date {
-      font-size: 0.85rem;
-      color: var(--text-light);
-      margin-bottom: 0.25rem;
-    }
-    
-    .timeline-title {
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-    
-    .timeline-company {
-      color: var(--primary-color);
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-    }
-    
-    /* Footer */
-    footer {
-      background-color: var(--text-dark);
-      color: white;
-      padding: 3rem 0 1.5rem;
-      margin-top: 3rem;
-    }
-    
-    .footer-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-    
-    .footer-col h3 {
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
-      color: white;
-    }
-    
-    .footer-col a {
-      display: block;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 0.5rem;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    
-    .footer-col a:hover {
-      color: white;
-    }
-    
-    .social-links {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-    
-    .social-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      color: white;
-      transition: all 0.3s;
-    }
-    
-    .social-link:hover {
-      background-color: var(--primary-color);
-      transform: translateY(-3px);
-    }
-    
-    .copyright {
-      text-align: center;
-      padding-top: 1.5rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.9rem;
-    }
-    
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      .profile-name {
-        font-size: 2rem;
-      }
-      
-      .profile-stats {
-        gap: 1rem;
-      }
-      
-      .stat-number {
-        font-size: 1.25rem;
-      }
-    }
-  </style>
 </head>
 <body>
-  <!-- Header/Navbar -->
-  <div class="background-container"></div> 
+  <!-- Fondo animado consistente -->
+  <div class="background-container"></div>
 
-  
-   <header class="shadow-sm">
+  <!-- Header / Navbar igual a index -->
+  <header class="shadow-sm">
     <nav class="navbar navbar-expand-lg bg-white-95 fixed-top custom-navbar" id="mainNavbar">
       <div class="container-fluid px-2 px-sm-3 px-lg-4">
-        
+        <!-- Marca a la izquierda -->
         <a class="navbar-brand d-flex align-items-center me-auto brand-left" href="../index.html">
           <img src="../recursos/logo.svg" alt="Crece Diseño" class="brand-logo" />
         </a>
-        <button class="navbar-toggler ms-2 mobile-menu-btn" type="button" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+
+        <!-- Toggler -->
+        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="navbar-collapse" id="mainNav">
+
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="mainNav">
           <ul class="navbar-nav ms-auto align-items-lg-center">
             <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
-            <li class="nav-item"><a class="nav-link" href="cursos.html">Cursos</a></li>
-            <li class="nav-item"><a class="nav-link" href="../html/nosotros.html">Nosotros</a></li>
-            <li class="nav-item"><a class="nav-link" href="foro.html">Foro</a></li>
-            <li class="nav-item"><a class="nav-link" href="../html/usuario.html">Mi Perfil</a></li>
+            <li class="nav-item"><a class="nav-link" href="./cursos.html">Cursos</a></li>
+            <li class="nav-item"><a class="nav-link" href="./nosotros.html">Nosotros</a></li>
+            <li class="nav-item"><a class="nav-link" href="../html/foro.html">Foro</a></li>
+            <li class="nav-item"><a class="nav-link active" href="./usuario.html">Mi Perfil</a></li>
           </ul>
         </div>
       </div>
     </nav>
   </header>
 
-  <!-- Profile Header -->
-  <section class="profile-header">
-    <div class="container profile-container">
-      <div class="text-center">
-        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
-             alt="Foto de perfil" class="profile-avatar">
-        <h1 class="profile-name"> Pedro García Rodríguez</h1>
-        <p class="profile-title">Diseñador Gráfica & Ilustradora</p>
-        <p class="w-75 mx-auto">Especializado en diseño de marca, ilustración digital y diseño UX/UI. Apasionado por crear experiencias visuales que conecten con las audiencias.</p>
-        
-        <div class="profile-stats">
-          <div class="stat-item">
-            <span class="stat-number">24</span>
-            <span class="stat-label">Cursos</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">18</span>
-            <span class="stat-label">Completados</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">6</span>
-            <span class="stat-label">En progreso</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">3</span>
-            <span class="stat-label">Certificaciones</span>
-          </div>
-        </div>
-        
-        <div class="profile-actions">
-          <button class="btn btn-edit"><i class="fas fa-edit me-2"></i> Editar Perfil</button>
-        </div>
+  <!-- Hero coherente con index -->
+  <section class="hero hero-usuario" id="inicio">
+    <div class="banner-container">
+      <img src="../recursos/patron1.svg" alt="Patrón de fondo" />
+    </div>
+    <div class="container">
+      <div class="hero-content center-block" data-aos="fade-up" data-aos-duration="800">
+        <h1>Mi Perfil de Aprendizaje</h1>
+        <p>Gestiona tus cursos seleccionados y sigue tu progreso de formación profesional.</p>
       </div>
     </div>
   </section>
 
-  <!-- Main Content -->
   <main class="profile-content">
     <div class="container">
       <div class="row">
-        <!-- Left Column -->
+        <!-- Left column -->
         <div class="col-lg-8">
-          <!-- About Section -->
-          <div class="card" data-aos="fade-up">
-            <div class="card-header">
-              <h3 class="card-title">Acerca de mí</h3>
-            </div>
-            <div class="card-body">
-              <p class="about-text">
-                Diseñadora gráfica con 5 años de experiencia especializada en branding, ilustración digital y diseño UX/UI. 
-                Me apasiona crear identidades visuales que cuentan historias y resuelven problemas de comunicación.
-              </p>
-              <p class="about-text">
-                Actualmente trabajo como diseñadora senior en una agencia digital, donde lidero proyectos de diseño 
-                para clientes internacionales. Mi enfoque combina creatividad, estrategia y atención al detalle para 
-                entregar soluciones visuales efectivas.
-              </p>
-              <p class="about-text">
-                Estoy constantemente actualizando mis habilidades a través de los cursos de Crece Diseño, 
-                explorando nuevas tendencias y técnicas en el mundo del diseño.
-              </p>
+          <!-- About -->
+          <div class="card" id="aboutCard" data-section="about">
+            <div class="card-header"><h3 class="card-title">Acerca de mí</h3></div>
+            <div class="card-body" id="aboutBody">
+              <p class="about-text" data-editable="true">Diseñadora gráfica con 5 años de experiencia especializada en branding, ilustración digital y diseño UX/UI. Me apasiona crear identidades visuales que cuentan historias y resuelven problemas de comunicación.</p>
+              <p class="about-text" data-editable="true">Actualmente trabajo como diseñadora senior en una agencia digital, donde lidero proyectos de diseño para clientes internacionales. Mi enfoque combina creatividad, estrategia y atención al detalle para entregar soluciones visuales efectivas.</p>
             </div>
           </div>
 
-          <!-- Courses Section -->
-          <div class="card" data-aos="fade-up" data-aos-delay="100">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">Mis Cursos</h3>
-              <a href="cursos.html" class="btn btn-sm btn-outline-primary">Ver todos</a>
-            </div>
-            <div class="card-body">
-              <div class="row g-3">
-                <!-- Course 1 -->
-                <div class="col-md-6">
-                  <div class="course-card card">
-                    <div class="course-img">
-                      <i class="fas fa-palette"></i>
-                    </div>
-                    <div class="course-info">
-                      <h5 class="course-title">Diseño de Marca e Identidad Visual</h5>
-                      <div class="course-meta">
-                        <span>12 horas</span>
-                        <span class="badge badge-completed">Completado</span>
-                      </div>
-                      <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
-                      </div>
-                      <small class="text-muted">Finalizado: 15 Mar 2023</small>
-                    </div>
-                  </div>
-                </div>
-                
-                <!-- Course 2 -->
-                <div class="col-md-6">
-                  <div class="course-card card">
-                    <div class="course-img">
-                      <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="course-info">
-                      <h5 class="course-title">Diseño UX/UI para Aplicaciones Móviles</h5>
-                      <div class="course-meta">
-                        <span>18 horas</span>
-                        <span class="badge badge-in-progress">En progreso</span>
-                      </div>
-                      <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 65%"></div>
-                      </div>
-                      <small class="text-muted">65% completado</small>
-                    </div>
-                  </div>
-                </div>
-                
-                <!-- Course 3 -->
-                <div class="col-md-6">
-                  <div class="course-card card">
-                    <div class="course-img">
-                      <i class="fas fa-pencil-alt"></i>
-                    </div>
-                    <div class="course-info">
-                      <h5 class="course-title">Ilustración Digital con Procreate</h5>
-                      <div class="course-meta">
-                        <span>10 horas</span>
-                        <span class="badge badge-completed">Completado</span>
-                      </div>
-                      <div class="progress">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
-                      </div>
-                      <small class="text-muted">Finalizado: 02 Ene 2023</small>
-                    </div>
-                  </div>
-                </div>
-                
-                <!-- Course 4 -->
-                <div class="col-md-6">
-                  <div class="course-card card">
-                    <div class="course-img">
-                      <i class="fas fa-chart-bar"></i>
-                    </div>
-                    <div class="course-info">
-                      <h5 class="course-title">Diseño de Infografías y Visualización de Datos</h5>
-                      <div class="course-meta">
-                        <span>14 horas</span>
-                        <span class="badge badge-in-progress">En progreso</span>
-                      </div>
-                      <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 30%"></div>
-                      </div>
-                      <small class="text-muted">30% completado</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Experience Section -->
-          <div class="card" data-aos="fade-up" data-aos-delay="200">
-            <div class="card-header">
-              <h3 class="card-title">Experiencia Profesional</h3>
-            </div>
-            <div class="card-body">
+          <!-- Experience -->
+          <div class="card" id="experienceCard" data-section="experience">
+            <div class="card-header"><h3 class="card-title">Experiencia Profesional</h3></div>
+            <div class="card-body" id="experienceBody">
               <div class="timeline">
-                <!-- Experience 1 -->
-                <div class="timeline-item">
+                <div class="timeline-item" data-editable="true">
                   <div class="timeline-date">2021 - Presente</div>
                   <h4 class="timeline-title">Diseñadora Senior</h4>
                   <div class="timeline-company">Estudio Creativo Digital</div>
                   <p>Lidero proyectos de diseño de marca y experiencia de usuario para clientes internacionales. Superviso un equipo de 3 diseñadores junior.</p>
                 </div>
-                
-                <!-- Experience 2 -->
-                <div class="timeline-item">
+                <div class="timeline-item" data-editable="true">
                   <div class="timeline-date">2019 - 2021</div>
                   <h4 class="timeline-title">Diseñadora Gráfica</h4>
                   <div class="timeline-company">Agencia Branding Solutions</div>
                   <p>Diseñé identidades visuales, material promocional y sitios web para pequeñas y medianas empresas.</p>
                 </div>
-                
-                <!-- Experience 3 -->
-                <div class="timeline-item">
-                  <div class="timeline-date">2017 - 2019</div>
-                  <h4 class="timeline-title">Diseñadora Junior</h4>
-                  <div class="timeline-company">Estudio de Diseño Visual</div>
-                  <p>Asistí en proyectos de diseño editorial, ilustración y diseño web bajo la supervisión de diseñadores senior.</p>
-                </div>
               </div>
+              <div class="small-muted mt-2">Tip: Haz clic en el texto para editar. Puedes añadir o eliminar contenido si lo deseas.</div>
             </div>
           </div>
         </div>
 
-        <!-- Right Column -->
+        <!-- Right column -->
         <div class="col-lg-4">
-          <!-- Contact Info -->
-          <div class="card mb-4" data-aos="fade-left">
-            <div class="card-header">
-              <h3 class="card-title">Información de Contacto</h3>
-            </div>
-            <div class="card-body">
-              <div class="mb-3">
+          <!-- Contact -->
+          <div class="card mb-4" id="contactCard" data-section="contact">
+            <div class="card-header"><h3 class="card-title">Información de Contacto</h3></div>
+            <div class="card-body" id="contactBody">
+              <div class="mb-3" data-editable="true">
                 <strong><i class="fas fa-envelope me-2 text-primary"></i> Email</strong>
-                <p class="mb-0">ana.garcia@ejemplo.com</p>
+                <p class="mb-0 editable-field">ana.garcia@ejemplo.com</p>
               </div>
-              <div class="mb-3">
+              <div class="mb-3" data-editable="true">
                 <strong><i class="fas fa-phone me-2 text-primary"></i> Teléfono</strong>
-                <p class="mb-0">+52 322 555 7890</p>
+                <p class="mb-0 editable-field">+52 322 555 7890</p>
               </div>
-              <div class="mb-3">
+              <div class="mb-3" data-editable="true">
                 <strong><i class="fas fa-map-marker-alt me-2 text-primary"></i> Ubicación</strong>
-                <p class="mb-0">Puerto Vallarta, Jalisco, México</p>
+                <p class="mb-0 editable-field">Puerto Vallarta, Jalisco, México</p>
               </div>
-              <div class="mb-3">
+              <div class="mb-3" data-editable="true">
                 <strong><i class="fas fa-globe me-2 text-primary"></i> Sitio Web</strong>
-                <p class="mb-0">www.anagarcia-design.com</p>
-              </div>
-              <div>
-                <strong><i class="fas fa-calendar-alt me-2 text-primary"></i> Miembro desde</strong>
-                <p class="mb-0">Enero 2022</p>
+                <p class="mb-0 editable-field">www.anagarcia-design.com</p>
               </div>
             </div>
           </div>
 
           <!-- Skills -->
-          <div class="card mb-4" data-aos="fade-left" data-aos-delay="100">
-            <div class="card-header">
-              <h3 class="card-title">Habilidades</h3>
-            </div>
-            <div class="card-body">
-              <div class="skill-item">
-                <div class="skill-name">
-                  <span>Diseño de Marca</span>
-                  <span>95%</span>
+          <div class="card mb-4" id="skillsCard" data-section="skills">
+            <div class="card-header"><h3 class="card-title">Habilidades</h3></div>
+            <div class="card-body" id="skillsBody">
+              <!-- skill template entries -->
+              <div class="skill-item" data-index="0">
+                <div class="skill-name d-flex justify-content-between align-items-center">
+                  <span class="skill-text" data-editable="true">Diseño de Marca</span>
+                  <span class="skill-percent">95%</span>
                 </div>
-                <div class="skill-bar">
-                  <div class="skill-level" style="width: 95%"></div>
-                </div>
+                <div class="skill-bar mt-1"><div class="skill-level" style="width:95%"></div></div>
               </div>
-              
-              <div class="skill-item">
-                <div class="skill-name">
-                  <span>Ilustración Digital</span>
-                  <span>90%</span>
+
+              <div class="skill-item" data-index="1">
+                <div class="skill-name d-flex justify-content-between align-items-center">
+                  <span class="skill-text" data-editable="true">Ilustración Digital</span>
+                  <span class="skill-percent">90%</span>
                 </div>
-                <div class="skill-bar">
-                  <div class="skill-level" style="width: 90%"></div>
-                </div>
+                <div class="skill-bar mt-1"><div class="skill-level" style="width:90%"></div></div>
               </div>
-              
-              <div class="skill-item">
-                <div class="skill-name">
-                  <span>Diseño UX/UI</span>
-                  <span>85%</span>
+
+              <div class="skill-item" data-index="2">
+                <div class="skill-name d-flex justify-content-between align-items-center">
+                  <span class="skill-text" data-editable="true">Diseño UX/UI</span>
+                  <span class="skill-percent">85%</span>
                 </div>
-                <div class="skill-bar">
-                  <div class="skill-level" style="width: 85%"></div>
-                </div>
+                <div class="skill-bar mt-1"><div class="skill-level" style="width:85%"></div></div>
               </div>
-              
-              <div class="skill-item">
-                <div class="skill-name">
-                  <span>Adobe Creative Suite</span>
-                  <span>95%</span>
+
+              <div class="skill-item" data-index="3">
+                <div class="skill-name d-flex justify-content-between align-items-center">
+                  <span class="skill-text" data-editable="true">Adobe Creative Suite</span>
+                  <span class="skill-percent">95%</span>
                 </div>
-                <div class="skill-bar">
-                  <div class="skill-level" style="width: 95%"></div>
-                </div>
+                <div class="skill-bar mt-1"><div class="skill-level" style="width:95%"></div></div>
               </div>
-              
-              <div class="skill-item">
-                <div class="skill-name">
-                  <span>Figma</span>
-                  <span>80%</span>
+
+              <div class="skill-item" data-index="4">
+                <div class="skill-name d-flex justify-content-between align-items-center">
+                  <span class="skill-text" data-editable="true">Figma</span>
+                  <span class="skill-percent">80%</span>
                 </div>
-                <div class="skill-bar">
-                  <div class="skill-level" style="width: 80%"></div>
-                </div>
+                <div class="skill-bar mt-1"><div class="skill-level" style="width:80%"></div></div>
               </div>
+
+              <div class="small-muted mt-2">En modo edición puedes ajustar el porcentaje usando el control deslizante y el número.</div>
             </div>
           </div>
 
           <!-- Certifications -->
-          <div class="card" data-aos="fade-left" data-aos-delay="200">
-            <div class="card-header">
-              <h3 class="card-title">Certificaciones</h3>
+          <div class="card" id="certsCard" data-section="certifications">
+            <div class="card-header"><h3 class="card-title">Certificaciones</h3></div>
+            <div class="card-body" id="certsBody">
+              <div class="mb-3" data-editable="true">
+                <h5 class="mb-1 cert-title">Especialista en Diseño de Marca</h5>
+                <p class="mb-1 text-muted cert-issuer">Crece Diseño</p>
+                <small class="text-muted cert-date">Obtenida: Marzo 2023</small>
+              </div>
+              <div class="mb-3" data-editable="true">
+                <h5 class="mb-1 cert-title">Diseñador UX/UI Avanzado</h5>
+                <p class="mb-1 text-muted cert-issuer">Crece Diseño</p>
+                <small class="text-muted cert-date">Obtenida: Enero 2023</small>
+              </div>
             </div>
-            <div class="card-body">
-              <div class="mb-3">
-                <h5 class="mb-1">Especialista en Diseño de Marca</h5>
-                <p class="mb-1 text-muted">Crece Diseño</p>
-                <small class="text-muted">Obtenida: Marzo 2023</small>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <section class="main-content">
+    <div class="container">
+      <div class="profile-section">
+        <div class="profile-header">
+          
+          <div class="profile-info">
+
+            <div class="profile-stats">
+              <div class="stat">
+                <span class="stat-number" id="total-courses">0</span>
+                <span class="stat-label">Cursos Totales</span>
               </div>
-              
-              <div class="mb-3">
-                <h5 class="mb-1">Diseñador UX/UI Avanzado</h5>
-                <p class="mb-1 text-muted">Crece Diseño</p>
-                <small class="text-muted">Obtenida: Enero 2023</small>
+              <div class="stat">
+                <span class="stat-number" id="in-progress">0</span>
+                <span class="stat-label">En Progreso</span>
               </div>
-              
-              <div>
-                <h5 class="mb-1">Ilustrador Digital Profesional</h5>
-                <p class="mb-1 text-muted">Crece Diseño</p>
-                <small class="text-muted">Obtenida: Noviembre 2022</small>
+              <div class="stat">
+                <span class="stat-number" id="completed">0</span>
+                <span class="stat-label">Completados</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
 
-  <!-- Footer -->
+      <!-- Sección de Cursos Seleccionados -->
+      <div class="my-courses-section">
+        <div class="courses-filter">
+          <button class="filter-btn active" data-filter="all">Todos</button>
+          <button class="filter-btn" data-filter="seleccionado">Seleccionados</button>
+          <button class="filter-btn" data-filter="en-progreso">En Progreso</button>
+          <button class="filter-btn" data-filter="completado">Completados</button>
+        </div>
+
+        <div id="no-courses-message" class="no-courses-message" style="display: none;">
+          <div class="empty-state">
+            <i class="fas fa-book-open"></i>
+            <h4>No tienes cursos seleccionados</h4>
+            <p>Visita nuestro catálogo de cursos y selecciona los que te interesen para comenzar tu formación.</p>
+            <a href="./cursos.html" class="btn btn-primary">Explorar Cursos</a>
+          </div>
+        </div>
+
+        <div id="my-courses-grid" class="my-courses-grid">
+          <!-- Los cursos seleccionados se cargarán aquí dinámicamente -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer igual a index -->
   <footer>
     <div class="container">
       <div class="footer-container">
         <div class="footer-col">
           <h3>Crece Diseño</h3>
           <p>Catálogo de Formación para diseñadores gráficos en Puerto Vallarta.</p>
-          <div class="social-links">
+          <div class="social-links social-centered">
             <a href="https://www.instagram.com/crece_diseno?igsh=MWRtNHlvaGs4dmt0dA==" class="social-link" target="_blank" rel="noopener" aria-label="Instagram">
               <i class="fab fa-instagram"></i>
             </a>
@@ -961,15 +270,15 @@
         </div>
         <div class="footer-col">
           <h3>Enlaces Rápidos</h3>
-          <a href="index.html">Inicio</a>
-          <a href="cursos.html">Cursos</a>
-          <a href="nosotros.html">Nosotros</a>
-          <a href="index.html#contacto">Contacto</a>
+          <a href="../index.html#inicio">Inicio</a>
+          <a href="./cursos.html">Cursos</a>
+          <a href="./nosotros.html">Nosotros</a>
+          <a href="../html/foro.html">Foro</a>
         </div>
         <div class="footer-col">
           <h3>Cursos</h3>
-          <a href="cursos.html#gratuitos">Cursos Gratuitos</a>
-          <a href="cursos.html#paga">Cursos de Paga</a>
+          <a href="./cursos.html#gratuitos">Cursos Gratuitos</a>
+          <a href="./cursos.html#paga">Cursos de Paga</a>
           <a href="#">Certificaciones</a>
           <a href="#">Talleres</a>
         </div>
@@ -981,276 +290,523 @@
         </div>
       </div>
       <div class="copyright">
-        <p>&copy; 2023 Crece Diseño. Todos los derechos reservados.</p>
+        <p>&copy; 2025 Crece Diseño. Todos los derechos reservados.</p>
       </div>
     </div>
   </footer>
 
-  <!-- Scripts -->
+  <!-- Botón WhatsApp igual a index -->
+  <a class="whatsapp-float" target="_blank" rel="noopener"
+     href="https://whatsapp.com/channel/0029VbBAW0D3LdQPDltrrs1N">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
   <script>
-    // Initialize AOS animations
-    AOS.init({
-      duration: 800,
-      once: true
+    AOS.init();
+
+    // Navbar sticky
+    (function(){
+      const navbar = document.getElementById('mainNavbar');
+      let lastY = window.scrollY;
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        navbar.classList.toggle('navbar-scrolled', y > 120);
+        navbar.classList.toggle('navbar-hidden', y > lastY && y > 180);
+        lastY = y;
+      }, { passive: true });
+    })();
+
+    // --- SISTEMA DE GESTIÓN DE CURSOS DEL USUARIO ---
+    document.addEventListener('DOMContentLoaded', function() {
+      loadUserCourses();
+      setupFilterButtons();
     });
-    let lastScrollTop = 0;
-let ticking = false;
 
-function updateHeader() {
-  const navbar = document.getElementById('mainNavbar');
-  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  
-  if (scrollTop > 100) {
-    navbar.classList.add('navbar-scrolled');
-  } else {
-    navbar.classList.remove('navbar-scrolled');
-  } 
-  
-  if (scrollTop > lastScrollTop && scrollTop > 100 && lastScrollTop !== 0) {
-  navbar.classList.add('navbar-hidden');
-} else {
-  navbar.classList.remove('navbar-hidden');
-}
-  
-  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-  ticking = false;
-}
-
-function requestTick() {
-  if (!ticking) {
-    requestAnimationFrame(updateHeader);
-    ticking = true;
-  }
-}
-
-function showWelcomeOverlay() {
-  const overlay = document.getElementById('welcomeOverlay');
-  overlay.classList.remove('hidden');
-  
-  setTimeout(() => {
-    overlay.classList.add('hidden');
-    setTimeout(showRegisterModal, 500);
-  }, 1000); 
-}
-
-function showRegisterModal() {
-  if (localStorage.getItem('usuarioRegistrado') === 'true') {
-    return;
-  }
-  const modal = document.getElementById('registerModal');
-  modal.classList.add('active');
-}
-
-function closeRegisterModal() {
-  const modal = document.getElementById('registerModal');
-  modal.classList.remove('active');
-}
-
-function validateForm(form) {
-  const nombre = form.querySelector('#nombre');
-  const email = form.querySelector('#correo');
-  const phone = form.querySelector('#telefono');
-  const city = form.querySelector('#ciudad');
-  let isValid = true;
-
-  form.querySelectorAll('.error-message').forEach(el => el.remove());
-  form.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-invalid'));
-
-  const regexNombre = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]{3,100}$/;
-
-  if (!regexNombre.test(nombre.value.trim())) {
-    showError(nombre, 'Ingresa un nombre válido (solo letras y espacios).');
-    isValid = false;
-  }
-
-  const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const regexPhone = /^\+?\d{10,15}$/; 
-  const regexCity = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]{3,50}$/; 
-
-  if (!regexEmail.test(email.value.trim())) {
-    showError(email, 'Ingresa un correo electrónico válido.');
-    isValid = false;
-  }
-
-  if (!regexPhone.test(phone.value.trim())) {
-    showError(phone, 'Ingresa un número telefónico válido (solo números y signo +).');
-    isValid = false;
-  }
-
-  if (!regexCity.test(city.value.trim())) {
-    showError(city, 'La ciudad solo puede contener letras y espacios (3 a 50 caracteres).');
-    isValid = false;
-  }
-
-  return isValid;
-}
-
-function showError(input, message) {
-  input.classList.add('is-invalid');
-  const error = document.createElement('div');
-  error.className = 'error-message text-danger mt-1 small';
-  error.textContent = message;
-  input.parentNode.appendChild(error);
-}
-
-function submitForm(form) {
-  if (!validateForm(form)) return false;
-
-  const submitBtn = form.querySelector('.register-btn');
-  const originalText = submitBtn.textContent;
-  submitBtn.disabled = true;
-
-  const datos = new FormData(form);
-
-  fetch('php/registrar.php', {
-    method: 'POST',
-    body: datos
-  })
-  .then(res => res.text())
-  .then(msg => {
-    console.log('Respuesta PHP:', msg);
-
-    if (msg.trim().startsWith('EXITO') || msg.trim().toUpperCase().includes('EXITO') || msg.trim().includes('✅')) {
-      localStorage.setItem('usuarioRegistrado', 'true');
-      submitBtn.innerHTML = 'Registro Exitoso';
-      form.reset();
-      setTimeout(() => {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-        closeRegisterModal();
-      }, 1500);
-    } else {
-      alert(msg);
-      submitBtn.textContent = originalText;
-      submitBtn.disabled = false;
+    function loadUserCourses() {
+      const selectedCourses = JSON.parse(localStorage.getItem('selectedCourses') || '{}');
+      const coursesGrid = document.getElementById('my-courses-grid');
+      const noCoursesMessage = document.getElementById('no-courses-message');
+      
+      // Actualizar estadísticas
+      updateStats(selectedCourses);
+      
+      // Limpiar grid
+      coursesGrid.innerHTML = '';
+      
+      if (Object.keys(selectedCourses).length === 0) {
+        noCoursesMessage.style.display = 'block';
+        coursesGrid.style.display = 'none';
+        return;
+      }
+      
+      noCoursesMessage.style.display = 'none';
+      coursesGrid.style.display = 'grid';
+      
+      // Crear tarjetas para cada curso
+      Object.entries(selectedCourses).forEach(([courseId, course]) => {
+        const courseCard = createCourseCard(courseId, course);
+        coursesGrid.appendChild(courseCard);
+      });
     }
-  })
-  .catch(() => {
-    alert('Error de red al registrar.');
-    submitBtn.textContent = originalText;
-    submitBtn.disabled = false;
-  });
 
-  return false;
-}
+    function createCourseCard(courseId, course) {
+      const card = document.createElement('div');
+      card.className = 'my-course-card';
+      card.setAttribute('data-status', course.status);
+      
+      // Determinar clase de estado
+      let statusClass = '';
+      let statusText = '';
+      
+      switch(course.status) {
+        case 'seleccionado':
+          statusClass = 'status-selected';
+          statusText = 'Seleccionado';
+          break;
+        case 'en-progreso':
+          statusClass = 'status-in-progress';
+          statusText = 'En Progreso';
+          break;
+        case 'completado':
+          statusClass = 'status-completed';
+          statusText = 'Completado';
+          break;
+      }
+      
+      card.innerHTML = `
+        <div class="my-course-header">
+          <h4>${course.name}</h4>
+          <span class="course-category">${course.category}</span>
+        </div>
+        <div class="my-course-body">
+          <p class="course-description">${course.description}</p>
+          <div class="course-meta">
+            <span class="added-date">Agregado: ${formatDate(course.addedDate)}</span>
+          </div>
+          <div class="course-actions">
+            <div class="status-selector">
+              <label>Estado:</label>
+              <select class="status-dropdown" data-course-id="${courseId}">
+                <option value="seleccionado" ${course.status === 'seleccionado' ? 'selected' : ''}>Seleccionado</option>
+                <option value="en-progreso" ${course.status === 'en-progreso' ? 'selected' : ''}>En Progreso</option>
+                <option value="completado" ${course.status === 'completado' ? 'selected' : ''}>Completado</option>
+              </select>
+            </div>
+            <button class="btn-remove-course" data-course-id="${courseId}">
+              <i class="fas fa-trash"></i> Eliminar
+            </button>
+          </div>
+        </div>
+        <div class="my-course-status ${statusClass}">
+          <span>${statusText}</span>
+        </div>
+      `;
+      
+      return card;
+    }
 
-function initSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
-      const targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        e.preventDefault();
-        const navbarToggler = document.querySelector('.navbar-toggler');
-        const navbarCollapse = document.querySelector('.navbar-collapse');
-        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
-          navbarToggler.click();
-        }
-        const headerHeight = document.querySelector('.custom-navbar').offsetHeight;
-        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
-        window.scrollTo({
-          top: targetPosition,
-          behavior: 'smooth'
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('es-MX', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    }
+
+    function updateStats(courses) {
+      const total = Object.keys(courses).length;
+      const inProgress = Object.values(courses).filter(course => course.status === 'en-progreso').length;
+      const completed = Object.values(courses).filter(course => course.status === 'completado').length;
+      
+      document.getElementById('total-courses').textContent = total;
+      document.getElementById('in-progress').textContent = inProgress;
+      document.getElementById('completed').textContent = completed;
+    }
+
+    function setupFilterButtons() {
+      const filterButtons = document.querySelectorAll('.courses-filter .filter-btn');
+      
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Actualizar botones activos
+          filterButtons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Filtrar cursos
+          const filter = this.getAttribute('data-filter');
+          filterCourses(filter);
         });
+      });
+      
+      // Configurar eventos para los dropdowns de estado
+      document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('status-dropdown')) {
+          const courseId = e.target.getAttribute('data-course-id');
+          const newStatus = e.target.value;
+          updateCourseStatus(courseId, newStatus);
+        }
+      });
+      
+      // Configurar eventos para los botones de eliminar
+      document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('btn-remove-course') || 
+            e.target.closest('.btn-remove-course')) {
+          const button = e.target.classList.contains('btn-remove-course') ? 
+                         e.target : e.target.closest('.btn-remove-course');
+          const courseId = button.getAttribute('data-course-id');
+          removeCourse(courseId);
+        }
+      });
+    }
+
+    function filterCourses(filter) {
+      const courseCards = document.querySelectorAll('.my-course-card');
+      
+      courseCards.forEach(card => {
+        if (filter === 'all' || card.getAttribute('data-status') === filter) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function updateCourseStatus(courseId, newStatus) {
+      const selectedCourses = JSON.parse(localStorage.getItem('selectedCourses') || '{}');
+      
+      if (selectedCourses[courseId]) {
+        selectedCourses[courseId].status = newStatus;
+        localStorage.setItem('selectedCourses', JSON.stringify(selectedCourses));
+        
+        // Recargar la vista
+        loadUserCourses();
+        
+        // Mostrar notificación
+        showNotification(`Estado del curso actualizado a "${getStatusText(newStatus)}"`);
+      }
+    }
+
+    function getStatusText(status) {
+      switch(status) {
+        case 'seleccionado': return 'Seleccionado';
+        case 'en-progreso': return 'En Progreso';
+        case 'completado': return 'Completado';
+        default: return status;
+      }
+    }
+
+    function removeCourse(courseId) {
+      if (confirm('¿Estás seguro de que quieres eliminar este curso de tu lista?')) {
+        const selectedCourses = JSON.parse(localStorage.getItem('selectedCourses') || '{}');
+        
+        if (selectedCourses[courseId]) {
+          delete selectedCourses[courseId];
+          localStorage.setItem('selectedCourses', JSON.stringify(selectedCourses));
+          
+          // Recargar la vista
+          loadUserCourses();
+          
+          // Mostrar notificación
+          showNotification('Curso eliminado de tu lista');
+        }
+      }
+    }
+
+    function showNotification(message) {
+      // Crear elemento de notificación
+      const notification = document.createElement('div');
+      notification.className = 'course-notification';
+      notification.textContent = message;
+      
+      // Estilos para la notificación
+      notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: #5B4393;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        max-width: 300px;
+        animation: slideIn 0.3s ease-out;
+      `;
+      
+      // Agregar al DOM
+      document.body.appendChild(notification);
+      
+      // Remover después de 3 segundos
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease-in';
         setTimeout(() => {
-          setActiveNavLink();
-        }, 800);
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }, 3000);
+    }
+
+     
+   // Sections to manage
+    const editableSelectors = {
+      about: '#aboutBody [data-editable]',
+      experience: '#experienceBody [data-editable]',
+      contact: '#contactBody [data-editable]',
+      certifications: '#certsBody [data-editable]',
+      skills: '#skillsBody .skill-item'
+    };
+
+    const btnEdit = document.getElementById('btnEdit');
+    const btnSave = document.getElementById('btnSave');
+    const btnCancel = document.getElementById('btnCancel');
+    const editButtons = document.getElementById('editButtons');
+
+    // Toggle edit mode
+    let isEditing = false;
+    btnEdit.addEventListener('click', enterEditMode);
+    btnSave.addEventListener('click', () => exitEditMode(true));
+    btnCancel.addEventListener('click', () => exitEditMode(false));
+
+    function enterEditMode() {
+      isEditing = true;
+      btnEdit.style.display = 'none';
+      editButtons.style.display = 'inline-block';
+      enableContentEditing(true);
+    }
+
+    function exitEditMode(save) {
+      if (save) saveChanges();
+      isEditing = false;
+      btnEdit.style.display = 'inline-block';
+      editButtons.style.display = 'none';
+      enableContentEditing(false);
+    }
+
+    // Enable or disable contentEditable and show skill inputs during edit
+    function enableContentEditing(flag) {
+      // Generic editable elements
+      document.querySelectorAll('[data-editable]').forEach(el => {
+        el.contentEditable = flag ? "true" : "false";
+        if (flag) {
+          el.classList.add('editable-focused');
+          // focus first editable
+        } else {
+          el.classList.remove('editable-focused');
+        }
+      });
+
+      // Skill items need numeric inputs for percentage
+      const skillItems = document.querySelectorAll('#skillsBody .skill-item');
+      skillItems.forEach((item, idx) => {
+        const percentSpan = item.querySelector('.skill-percent');
+        const levelBar = item.querySelector('.skill-level');
+        const nameSpan = item.querySelector('.skill-text');
+
+        if (flag) {
+          // Hide percent span and inject inputs
+          percentSpan.style.display = 'none';
+          // create container for inputs if not exists
+          if (!item.querySelector('.skill-inputs')) {
+            const inputs = document.createElement('div');
+            inputs.className = 'skill-inputs mt-2';
+            // range
+            const range = document.createElement('input');
+            range.type = 'range';
+            range.min = 0; range.max = 100;
+            const current = parseInt(levelBar.style.width) || 0;
+            range.value = current;
+            range.addEventListener('input', () => {
+              num.value = range.value;
+              levelBar.style.width = range.value + '%';
+            });
+            // number
+            const num = document.createElement('input');
+            num.type = 'number';
+            num.min = 0; num.max = 100;
+            num.value = current;
+            num.addEventListener('input', () => {
+              let v = parseInt(num.value) || 0;
+              if (v < 0) v = 0; if (v > 100) v = 100;
+              num.value = v;
+              range.value = v;
+              levelBar.style.width = v + '%';
+            });
+            inputs.appendChild(range);
+            inputs.appendChild(num);
+
+            item.appendChild(inputs);
+          }
+          nameSpan.contentEditable = "true";
+          nameSpan.classList.add('editable-focused');
+        } else {
+          // remove inputs
+          const inputs = item.querySelector('.skill-inputs');
+          if (inputs) inputs.remove();
+          percentSpan.style.display = 'inline';
+          const width = parseInt(levelBar.style.width) || 0;
+          percentSpan.textContent = width + '%';
+          nameSpan.contentEditable = "false";
+          nameSpan.classList.remove('editable-focused');
+        }
+      });
+    }
+
+    // Save changes to localStorage
+    function saveChanges() {
+      // Save About (store innerHTML)
+      const aboutHTML = document.getElementById('aboutBody').innerHTML;
+      localStorage.setItem('profile_about', aboutHTML);
+
+      // Save Contact
+      localStorage.setItem('profile_contact', document.getElementById('contactBody').innerHTML);
+
+      // Save Experience
+      localStorage.setItem('profile_experience', document.getElementById('experienceBody').innerHTML);
+
+      // Save Certifications
+      localStorage.setItem('profile_certs', document.getElementById('certsBody').innerHTML);
+
+      // Save Skills - build array of {name,percent}
+      const skills = [];
+      document.querySelectorAll('#skillsBody .skill-item').forEach(item => {
+        const name = item.querySelector('.skill-text').textContent.trim();
+        const levelBar = item.querySelector('.skill-level');
+        let percent = 0;
+        // when in editing, range may exist
+        const inputs = item.querySelector('.skill-inputs input[type="number"]');
+        if (inputs) {
+          percent = parseInt(inputs.value) || 0;
+        } else {
+          // read from bar or percent span
+          percent = parseInt(levelBar.style.width) || parseInt((item.querySelector('.skill-percent')||{textContent:'0%'}).textContent) || 0;
+        }
+        if (percent < 0) percent = 0; if (percent > 100) percent = 100;
+        skills.push({name, percent});
+      });
+      localStorage.setItem('profile_skills', JSON.stringify(skills));
+
+      // Optional: save profile name/title
+      localStorage.setItem('profile_name', document.getElementById('profileName').textContent.trim());
+      localStorage.setItem('profile_title', document.getElementById('profileTitle').textContent.trim());
+
+      // Feedback
+      btnSave.textContent = 'Guardado';
+      setTimeout(()=> btnSave.textContent = 'Guardar', 1200);
+    }
+
+    // Load saved data from localStorage
+    function loadSavedData() {
+      const about = localStorage.getItem('profile_about');
+      if (about) document.getElementById('aboutBody').innerHTML = about;
+
+      const contact = localStorage.getItem('profile_contact');
+      if (contact) document.getElementById('contactBody').innerHTML = contact;
+
+      const exp = localStorage.getItem('profile_experience');
+      if (exp) document.getElementById('experienceBody').innerHTML = exp;
+
+      const certs = localStorage.getItem('profile_certs');
+      if (certs) document.getElementById('certsBody').innerHTML = certs;
+
+      const skills = localStorage.getItem('profile_skills');
+      if (skills) {
+        try {
+          const arr = JSON.parse(skills);
+          const container = document.getElementById('skillsBody');
+          container.innerHTML = ''; // rebuild
+          arr.forEach((s, i) => {
+            const item = document.createElement('div');
+            item.className = 'skill-item';
+            item.setAttribute('data-index', i);
+            item.innerHTML = `
+              <div class="skill-name d-flex justify-content-between align-items-center">
+                <span class="skill-text" data-editable="true">${escapeHtml(s.name)}</span>
+                <span class="skill-percent">${s.percent}%</span>
+              </div>
+              <div class="skill-bar mt-1"><div class="skill-level" style="width:${s.percent}%"></div></div>
+            `;
+            container.appendChild(item);
+          });
+        } catch(e){ console.warn('Error parsing skills', e); }
+      }
+
+      const name = localStorage.getItem('profile_name');
+      if (name) document.getElementById('profileName').textContent = name;
+      const title = localStorage.getItem('profile_title');
+      if (title) document.getElementById('profileTitle').textContent = title;
+    }
+
+    function escapeHtml(text) {
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return text.replace(/[&<>"']/g, function(m){ return map[m]; });
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSavedData();
+
+      // Double-click to quickly enter edit on a block
+      document.querySelectorAll('[data-editable]').forEach(el => {
+        el.addEventListener('dblclick', () => {
+          enterEditMode();
+          el.focus();
+        });
+      });
+
+      // Keep skill percent labels in sync if user edits outside editing (safety)
+      document.querySelectorAll('.skill-item .skill-level').forEach(level => {
+        const parent = level.closest('.skill-item');
+        const percentSpan = parent.querySelector('.skill-percent');
+        const update = () => { percentSpan.textContent = parseInt(level.style.width) + '%'; };
+        // Mutation observer could be used, but we'll rely on input events in edit mode
+        update();
+      });
+
+      // Keyboard shortcut: Ctrl+E to toggle edit
+      document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.key.toLowerCase() === 'e') {
+          if (!isEditing) enterEditMode(); else exitEditMode(true);
+        }
+      });
+    });
+
+    // Make sure saving happens before unload to avoid losing edits accidentally
+    window.addEventListener('beforeunload', (e) => {
+      if (isEditing) {
+        // Save automatically
+        saveChanges();
       }
     });
-  });
-}
-
-function setActiveNavLink() {
-  const currentSection = getCurrentSection();
-  const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
-  
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    const href = link.getAttribute('href');
-    if (href === `#${currentSection}` || 
-        (currentSection === 'inicio' && (href === '#inicio' || href === 'index.html' || href === '/')) ||
-        (href.includes('cursos.html') && currentSection === 'cursos')) {
-      link.classList.add('active');
-    }
-  });
-}
-
-function getCurrentSection() {
-  const sections = document.querySelectorAll('section[id]');
-  let currentSection = 'inicio';
-  const scrollPosition = window.pageYOffset + 150; 
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop;
-    const sectionHeight = section.clientHeight;
-    const sectionId = section.getAttribute('id');
-    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-      currentSection = sectionId;
-    }
-  });
-  return currentSection;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  window.addEventListener('scroll', requestTick, { passive: true });
-  window.addEventListener('scroll', setActiveNavLink);
-  showWelcomeOverlay();
-
-  document.getElementById('registerClose').addEventListener('click', closeRegisterModal);
-  document.getElementById('registerModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-      closeRegisterModal();
-    }
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      closeRegisterModal();
-    }
-  });
-  document.getElementById('registerForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    submitForm(this);
-  });
-  initSmoothScroll();
-  setActiveNavLink();
-  document.querySelectorAll('.team-member').forEach(member => {
-    member.addEventListener('mouseenter', function() {
-      this.style.transform = 'translateY(-5px)';
-    });
-    member.addEventListener('mouseleave', function() {
-      this.style.transform = 'translateY(0)';
-    });
-  });
-  const navbarToggler = document.querySelector('.navbar-toggler');
-  if (navbarToggler) {
-    navbarToggler.addEventListener('click', function() {
-      const expanded = this.getAttribute('aria-expanded') === 'true';
-      this.setAttribute('aria-expanded', !expanded);
-    });
-  }
-});
-
-document.addEventListener('submit', function(e) {
-  if (e.target.tagName === 'FORM' && !e.target.hasAttribute('novalidate')) {
-    e.preventDefault();
-  }
-});
-
-function handleImageError(img) {
-  img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIG5vdCBmb3VuZDwvdGV4dD48L3N2Zz4=';
-  img.alt = 'Imagen no disponible';
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('img').forEach(img => {
-    img.addEventListener('error', function() {
-      handleImageError(this);
-    });
-  });
-});
-
   </script>
+<style>
+  
+    body { font-family: 'Quicksand', sans-serif; color: var(--text-dark); background-color: var(--bg-light); line-height: 1.6;}
+    h1,h2,h3,h4,h5,h6{ font-family:'Montserrat',sans-serif; font-weight:600; }
+    .profile-header{ background: linear-gradient(135deg, var(--primary-color), var(--accent-color)); color:white; padding:3.5rem 0 2rem; margin-bottom:2rem; }
+    .profile-avatar{ width:150px; height:150px; border-radius:50%; border:5px solid white; object-fit:cover; box-shadow:var(--shadow);}
+    .profile-name{ font-size:2rem; font-weight:700; margin-top:1rem;}
+    .btn-edit{ background-color: white; color: var(--primary-color); border: none; border-radius: 50px; padding: 0.5rem 1.25rem; font-weight:600; }
+    .card{ border:none; border-radius:12px; box-shadow:var(--shadow); margin-bottom:1.5rem;}
+    .skill-bar{ height:8px; background-color:#e9ecef; border-radius:4px; overflow:hidden;}
+    .skill-level{ height:100%; background: linear-gradient(to right, var(--primary-color), var(--accent-color)); border-radius:4px;}
+    .editable-focused{ outline: 2px dashed rgba(74,108,247,0.35); padding:0.25rem; border-radius:6px;}
+    .edit-controls{ display:flex; gap:0.5rem; justify-content:center; margin-top:1rem; }
+    .small-muted{ color:var(--text-light); font-size:0.9rem; }
+    .btn-cancel{ background:#f8f9fa; border:1px solid #ddd; color:#333; }
+    .skill-inputs{ display:flex; gap:0.5rem; align-items:center; }
+    .skill-inputs input[type="range"]{ width:120px; }
+    .skill-inputs input[type="number"]{ width:60px; }
+  </style>
+
 </body>
 </html>
