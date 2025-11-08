@@ -1,32 +1,40 @@
 <?php
+ini_set('display_errors', 0);
+error_reporting(E_ALL);
+require __DIR__ . '/conexion.php';
+
 header('Content-Type: application/json; charset=utf-8');
-require_once __DIR__ . '/conexion.php';
 
 $mensajeId = intval($_GET['mensaje_id'] ?? 0);
-$limit  = max(1, intval($_GET['limit'] ?? 50));   
-$offset = max(0, intval($_GET['offset'] ?? 0));
 
 if ($mensajeId <= 0) {
-  echo json_encode(['ok' => false, 'items' => []]);
+  echo json_encode(['ok' => false, 'msg' => 'ID inválido']);
   exit;
 }
-
-$sql = "SELECT id, mensaje_id, autor, contenido, creado_en
-        FROM foro_respuestas
-        WHERE mensaje_id = ?
-        ORDER BY creado_en ASC
-        LIMIT ? OFFSET ?";
+$sql = "
+SELECT fr.id, u.nombre AS nombre_usuario, fr.contenido, fr.creado_en
+FROM foro_respuestas fr
+JOIN usuarios u ON fr.usuario_id = u.id
+WHERE fr.mensaje_id = ?
+ORDER BY fr.creado_en ASC
+";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("iii", $mensajeId, $limit, $offset);
+if (!$stmt) {
+  echo json_encode(['ok' => false, 'msg' => 'Error al preparar sentencia']);
+  exit;
+}
+$stmt->bind_param("i", $mensajeId);
 $stmt->execute();
 $res = $stmt->get_result();
 
 $items = [];
-while ($r = $res->fetch_assoc()) {
-  $items[] = $r;
+while ($row = $res->fetch_assoc()) {
+  $row['nombre_usuario'] = htmlspecialchars($row['nombre_usuario'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+  $row['contenido'] = htmlspecialchars($row['contenido'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+  $items[] = $row;
 }
-echo json_encode(['ok' => true, 'items' => $items]);
-
 $stmt->close();
-$conn->close();
+
+echo json_encode(['ok' => true, 'items' => $items]);
+?>
