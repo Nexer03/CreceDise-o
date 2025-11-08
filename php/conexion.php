@@ -1,10 +1,10 @@
 <?php
 date_default_timezone_set('America/Mexico_City');
 
-$servername = "127.0.0.1";
-$username = "root";    
-$password = "121318";        
-$database = "crecediseño"; 
+$servername = "localhost";
+$username = "u121569097_admincrecedise";
+$password = "AdminCrece1213.";
+$database = "u121569097_crecediseno";
 
 
 $conn = new mysqli($servername, $username, $password, $database);
