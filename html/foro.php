@@ -1,3 +1,8 @@
+<?php
+session_start();
+$nombre_usuario = $_SESSION['nombre'] ?? 'Usuario';
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -59,7 +64,7 @@
                     <h2>Foro de la Clase</h2>
                 </div>
                 <div class="foro-body" id="foroBody">
-                    <!-- Foro vacío - sin mensajes -->
+                  
                     <div class="empty-foro">
                         <i class="fas fa-comments"></i>
                         <h3>Foro vacío</h3>
@@ -72,7 +77,13 @@
                     <form class="comment-form" id="commentForm">
                         <div class="form-group">
                             <label for="authorName">Tu nombre</label>
-                            <input type="text" id="authorName" class="form-control" placeholder="Ingresa tu nombre" required>
+                            <input 
+                            type="text" 
+                            id="authorName" 
+                            class="form-control" 
+                            value="<?php echo htmlspecialchars($nombre_usuario, ENT_QUOTES, 'UTF-8'); ?>" 
+                            readonly
+                            >
                         </div>
                         <div class="form-group">
                             <label for="commentContent">Tu mensaje</label>
@@ -163,7 +174,6 @@
     })();
     </script>
     <script>
-        // Foro bakcend 
         const foroBody  = document.getElementById('foroBody');
         const PAGE_SIZE = 10;
         let offset      = 0;
@@ -171,151 +181,150 @@
         let cargando    = false;
 
         function renderRespuesta(item) {
-            const r = document.createElement('div');
-            r.className = 'reply';
-            r.style.margin = '10px 0 0 0';
-            r.style.padding = '12px 14px';
-            r.style.background = 'var(--light-bg)';
-            r.style.borderRadius = '8px';
+        const r = document.createElement('div');
+        r.className = 'reply';
+        r.style.margin = '10px 0 0 0';
+        r.style.padding = '12px 14px';
+        r.style.background = 'var(--light-bg)';
+        r.style.borderRadius = '8px';
 
-            const head = document.createElement('div');
-            head.style.display = 'flex';
-            head.style.justifyContent = 'space-between';
-            head.style.marginBottom = '6px';
+        const head = document.createElement('div');
+        head.style.display = 'flex';
+        head.style.justifyContent = 'space-between';
+        head.style.marginBottom = '6px';
 
-            const a = document.createElement('strong');
-            a.textContent = item.autor;
+        const a = document.createElement('strong');
+        a.textContent = item.nombre_usuario; 
 
-            const f = document.createElement('span');
-            f.style.fontSize = '0.85rem';
-            f.style.color = 'var(--dark-gray)';
-            f.textContent = new Date(item.creado_en).toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' });
+        const f = document.createElement('span');
+        f.style.fontSize = '0.85rem';
+        f.style.color = 'var(--dark-gray)';
+        f.textContent = new Date(item.creado_en).toLocaleString('es-MX', { dateStyle: 'medium', timeStyle: 'short' });
 
-            head.appendChild(a);
-            head.appendChild(f);
+        head.appendChild(a);
+        head.appendChild(f);
 
-            const c = document.createElement('div');
-            c.textContent = item.contenido;
+        const c = document.createElement('div');
+        c.textContent = item.contenido;
 
-            r.appendChild(head);
-            r.appendChild(c);
-            return r;
+        r.appendChild(head);
+        r.appendChild(c);
+        return r;
         }
 
         async function cargarRespuestas(mensajeId, contenedor) {
-            try {
+        try {
             const res = await fetch(`../php/foro_listar_respuestas.php?mensaje_id=${mensajeId}`);
             const data = await res.json();
             if (!data.ok) return;
-
             contenedor.innerHTML = '';
             data.items.forEach(it => contenedor.appendChild(renderRespuesta(it)));
-            } catch (e) {
-            // Error al cargar respuestas
-            }
+        } catch (e) {
+            console.error('Error al cargar respuestas:', e);
+        }
         }
 
         function renderMensaje(item) {
-            const wrap = document.createElement('div');
-            wrap.className = 'message';
+        const wrap = document.createElement('div');
+        wrap.className = 'message';
 
-            const header = document.createElement('div');
-            header.className = 'message-header';
+        const header = document.createElement('div');
+        header.className = 'message-header';
 
-            const autor = document.createElement('span');
-            autor.className = 'message-author';
-            autor.textContent = item.autor;
+        const autor = document.createElement('span');
+        autor.className = 'message-author';
+        autor.textContent = item.nombre_usuario;
 
-            const fecha = document.createElement('span');
-            fecha.className = 'message-date';
-            fecha.textContent = new Date(item.creado_en).toLocaleString('es-MX', {
+
+        const fecha = document.createElement('span');
+        fecha.className = 'message-date';
+        fecha.textContent = new Date(item.creado_en).toLocaleString('es-MX', {
             dateStyle: 'medium',
             timeStyle: 'short'
-            });
+        });
 
-            header.appendChild(autor);
-            header.appendChild(fecha);
+        header.appendChild(autor);
+        header.appendChild(fecha);
 
-            const contenido = document.createElement('div');
-            contenido.className = 'message-content';
-            contenido.textContent = item.contenido;
+        const contenido = document.createElement('div');
+        contenido.className = 'message-content';
+        contenido.textContent = item.contenido;
 
-            const repliesBox = document.createElement('div');
-            repliesBox.className = 'replies';
-            repliesBox.style.marginTop = '10px';
-            repliesBox.style.paddingLeft = '10px';
-            repliesBox.style.borderLeft = '3px solid var(--medium-gray)';
+        const repliesBox = document.createElement('div');
+        repliesBox.className = 'replies';
+        repliesBox.style.marginTop = '10px';
+        repliesBox.style.paddingLeft = '10px';
+        repliesBox.style.borderLeft = '3px solid var(--medium-gray)';
 
-            const replyToggle = document.createElement('button');
-            replyToggle.type = 'button';
-            replyToggle.className = 'btn';
-            replyToggle.style.marginTop = '10px';
-            replyToggle.textContent = 'Responder';
+        const replyToggle = document.createElement('button');
+        replyToggle.type = 'button';
+        replyToggle.className = 'btn';
+        replyToggle.style.marginTop = '10px';
+        replyToggle.textContent = 'Responder';
 
-            const replyForm = document.createElement('form');
-            replyForm.style.display = 'none';
-            replyForm.style.marginTop = '10px';
+        const replyForm = document.createElement('form');
+        replyForm.style.display = 'none';
+        replyForm.style.marginTop = '10px';
 
-            replyForm.innerHTML = `
+    
+        replyForm.innerHTML = `
             <div class="form-group">
-                <label>Tu nombre</label>
-                <input type="text" name="autor" class="form-control" required>
+            <label>Tu nombre</label>
+            <input type="text" name="autor" class="form-control" 
+                    value="<?php echo htmlspecialchars($nombre_usuario, ENT_QUOTES, 'UTF-8'); ?>" readonly>
             </div>
             <div class="form-group">
-                <label>Tu respuesta</label>
-                <textarea name="contenido" class="form-control" required></textarea>
+            <label>Tu respuesta</label>
+            <textarea name="contenido" class="form-control" required></textarea>
             </div>
             <button type="submit" class="btn">Publicar respuesta</button>
-            `;
+        `;
 
-            replyToggle.addEventListener('click', () => {
+        replyToggle.addEventListener('click', () => {
             replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
-            });
+        });
 
-            replyForm.addEventListener('submit', async (e) => {
+        replyForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const autor = replyForm.querySelector('input[name="autor"]').value.trim();
             const contenido = replyForm.querySelector('textarea[name="contenido"]').value.trim();
-            if (autor.length < 2 || contenido.length < 3) {
-                alert('Completa los campos correctamente.');
-                return;
+            if (contenido.length < 3) {
+            alert('Escribe una respuesta válida.');
+            return;
             }
+
             const fd = new FormData();
             fd.append('mensaje_id', item.id);
-            fd.append('autor', autor);
-            fd.append('contenido', contenido);
+            fd.append('contenido', contenido); 
 
             try {
-                const res = await fetch('../php/foro_respuestas.php', { method: 'POST', body: fd });
-                const data = await res.json();
-                if (data.ok) {
+            const res = await fetch('../php/foro_respuestas.php', { method: 'POST', body: fd });
+            const data = await res.json();
+            if (data.ok) {
                 repliesBox.appendChild(renderRespuesta(data));
                 replyForm.reset();
                 replyForm.style.display = 'none';
-                } else {
+            } else {
                 alert('No se pudo guardar la respuesta.');
-                }
-            } catch (_) {
-                alert('Error al enviar la respuesta.');
             }
-            });
+            } catch (_) {
+            alert('Error al enviar la respuesta.');
+            }
+        });
 
-            wrap.appendChild(header);
-            wrap.appendChild(contenido);
-            wrap.appendChild(repliesBox);
-            wrap.appendChild(replyToggle);
-            wrap.appendChild(replyForm);
+        wrap.appendChild(header);
+        wrap.appendChild(contenido);
+        wrap.appendChild(repliesBox);
+        wrap.appendChild(replyToggle);
+        wrap.appendChild(replyForm);
 
-            // Cargar respuestas existentes
-            cargarRespuestas(item.id, repliesBox);
-
-            return wrap;
+        cargarRespuestas(item.id, repliesBox);
+        return wrap;
         }
 
         async function cargarMensajes() {
-            if (cargando || fin) return;
-            cargando = true;
-            try {
+        if (cargando || fin) return;
+        cargando = true;
+        try {
             const res = await fetch(`../php/foro_listar.php?limit=${PAGE_SIZE}&offset=${offset}`);
             const data = await res.json();
             if (!data.ok) return;
@@ -326,44 +335,43 @@
             data.items.forEach(item => foroBody.appendChild(renderMensaje(item)));
             offset += data.items.length;
             if (data.items.length < PAGE_SIZE) fin = true;
-            } finally {
+        } finally {
             cargando = false;
-            }
+        }
         }
 
         document.addEventListener('DOMContentLoaded', cargarMensajes);
 
-        // Publicar comentario principal
+       
         document.getElementById('commentForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const authorName     = document.getElementById('authorName').value.trim();
-            const commentContent = document.getElementById('commentContent').value.trim();
+        e.preventDefault();
+        const commentContent = document.getElementById('commentContent').value.trim();
 
-            if (authorName.length < 2 || commentContent.length < 3) {
-            alert('Por favor, completa los campos correctamente.');
+        if (commentContent.length < 3) {
+            alert('Por favor, escribe un mensaje válido.');
             return;
-            }
+        }
 
-            const fd = new FormData();
-            fd.append('autor', authorName);
-            fd.append('contenido', commentContent);
+        const fd = new FormData();
+        fd.append('contenido', commentContent); 
 
-            try {
-            const res  = await fetch('../php/foro_guardar.php', { method: 'POST', body: fd });
+        try {
+            const res = await fetch('../php/foro_guardar.php', { method: 'POST', body: fd });
             const data = await res.json();
             if (data.ok) {
-                const empty = document.querySelector('.empty-foro');
-                if (empty) empty.remove();
-                foroBody.prepend(renderMensaje(data));
-                this.reset();
+            const empty = document.querySelector('.empty-foro');
+            if (empty) empty.remove();
+            foroBody.prepend(renderMensaje(data));
+            this.reset();
             } else {
-                alert('No se pudo guardar el mensaje.');
+            alert(data.msg || 'No se pudo guardar el mensaje.');
             }
-            } catch (_) {
+        } catch (_) {
             alert('Error al enviar el mensaje.');
-            }
+        }
         });
         </script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="../js/scripts.js"></script>

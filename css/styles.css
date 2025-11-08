@@ -1083,3 +1083,31 @@ textarea.form-control {
   outline: none !important;
   box-shadow: none !important;
 }
+/* Botón de responder */
+.btn {
+  background: none;
+  border: none;
+  color: #5a5a5a;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  color: #4a73ff;
+  background-color: #eef2ff;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+.replies .reply {
+  background-color: #f9f9ff; 
+  border-left: 2px solid #c7d2fe; 
+  border-radius: 6px;
+  margin-top: 10px;
+  padding: 10px 14px;
+}
