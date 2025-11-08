@@ -34,28 +34,247 @@
     }
     
     /* Header/Navbar */
-    .custom-navbar {
-      background-color: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      padding: 0.8rem 0;
-    }
-    
-    .brand-logo {
-      height: 40px;
-      width: auto;
-    }
-    
-    .nav-link {
-      font-weight: 500;
-      color: var(--text-dark);
-      margin: 0 0.5rem;
-      transition: color 0.3s;
-    }
-    
-    .nav-link:hover, .nav-link.active {
-      color: var(--primary-color);
-    }
+    .navbar-nav .nav-link[href="nosotros.html"].active {
+  color: var(--bright-blue);
+  background-color: rgba(33, 124, 227, 0.15);
+}
+
+.navbar-nav .nav-link[href="nosotros.html"].active::after {
+  width: 70%;
+}
+
+
+/* === NAV UNDERLINE FIX (2025-11-06) ===============================
+   Motivo: Había dos definiciones .navbar-nav .nav-link::after.
+   Una ponía left:0/bottom:-3px (subrayado desalineado) y otra left:50%/bottom:50px.
+   Unificamos: centrado al texto, pegado justo debajo, y coherente en scrolled y móvil.
+=================================================================== */
+
+.navbar-nav .nav-link {
+  position: relative;
+}
+
+.navbar-nav .nav-link::after{
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;               
+  height: 2px;
+  width: 0;
+  background: var(--bright-blue);
+  border-radius: 1px;
+  transform: translateX(-50%);
+  transition: width .25s ease;
+}
+
+.navbar-nav .nav-link:hover::after{
+  width: 100%;
+}
+
+.navbar-nav .nav-link.active::after{
+  width: 70%;
+}
+
+.custom-navbar.navbar-scrolled .navbar-nav .nav-link::after{
+  bottom: -4px;
+}
+
+@media (max-width: 991px){
+  #mainNav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 10px 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1001;
+  }
+
+  #mainNav.show { display: block; }
+
+  #mainNav .navbar-nav {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  #mainNav .nav-link {
+    font-size: 1rem;         
+    padding: 0.6rem 1rem !important; 
+    margin: 0.15rem 0;
+    text-align: center;
+    border-radius: 8px;
+    width: 100%;
+  }
+
+
+  #mainNav .nav-link::after {
+    display: none !important;
+  }
+} 
+.foro-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.foro-header {
+  background: linear-gradient(135deg, var(--bright-blue), var(--dark-purple));
+  color: var(--white);
+  padding: 20px;
+  text-align: center;
+}
+
+.foro-header h2 {
+  margin-bottom: 0;
+  color: var(--white);
+}
+
+.custom-navbar{
+  height:200px;
+  background-color:rgba(255,255,255,.95);
+  transition:all .4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display:flex;align-items:center;
+  transform: translateY(0);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+}
+.custom-navbar.navbar-hidden {
+  transform: translateY(-100%);
+}
+.custom-navbar.navbar-scrolled {
+  height: 80px;
+  background-color:rgba(255,255,255,.98);
+  box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+.custom-navbar.navbar-scrolled .brand-logo {
+  height: 60px;
+}
+
+
+.navbar-nav .nav-link{
+  color:var(--dark-blue);
+  font-family:'Quicksand',sans-serif;
+  font-weight:600; 
+  font-size: 1.15rem; 
+  position:relative;
+  transition: all .3s ease;
+  padding: 0.8rem 1.2rem !important; 
+  margin: 0 0.3rem; 
+  border-radius: 8px; 
+  display: inline-block; 
+}
+
+.navbar-nav .nav-link:hover{
+  color:var(--bright-blue);
+  background-color: rgba(33, 124, 227, 0.1);
+  transform: translateY(-2px);
+}
+
+
+.navbar-nav .nav-link::after{
+  content: "";
+  position: absolute;
+  left: 50%; 
+  bottom: 50px; 
+  height: 2px;
+  width: 0;
+  background: var(--bright-blue);
+  transition: all .3s ease;
+  transform: translateX(-50%); 
+  border-radius: 1px;
+}
+
+.navbar-nav .nav-link:hover::after{
+  width: 100%; 
+}
+
+
+.navbar-nav .nav-link.active {
+  color: var(--bright-blue);
+  background-color: rgba(33, 124, 227, 0.15);
+}
+
+.navbar-nav .nav-link.active::after {
+  width: 70%; 
+}
+
+
+.custom-navbar.navbar-scrolled .navbar-nav .nav-link {
+  font-size: 1.1rem; 
+  padding: 0.6rem 1rem !important;
+}
+
+.custom-navbar.navbar-scrolled .navbar-nav .nav-link::after {
+  bottom: 10px; 
+}
+
+
+@media (max-width: 991px) {
+  .navbar-nav .nav-link {
+    font-size: 1.2rem; 
+    padding: 1rem 1.5rem !important;
+    margin: 0.2rem 0;
+    text-align: center;
+    border-radius: 12px;
+    display: block; 
+    width: 100%;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    background-color: rgba(33, 124, 227, 0.15);
+  }
+  
+  .navbar-nav .nav-link::after {
+    bottom: 15px; 
+    width: 60% !important; 
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .custom-navbar.navbar-scrolled .navbar-nav .nav-link {
+    font-size: 1.15rem;
+    padding: 0.8rem 1.2rem !important;
+  }
+  
+  .custom-navbar.navbar-scrolled .navbar-nav .nav-link::after {
+    bottom: 12px; 
+  }
+}
+
+.brand-logo{
+  height:140px;
+  width:auto;
+  display:block;
+  transition: all .4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.brand-left{
+  padding-left:0;
+  margin-left:0;
+  transform:translateX(-6px);
+}
+.navbar-nav .nav-link{
+  color:var(--dark-blue);
+  font-family:'Quicksand',sans-serif;
+  font-weight:500;
+  position:relative;
+  transition: color .3s ease;
+}
+.navbar-nav .nav-link:hover{color:var(--bright-blue)}
+.navbar-nav .nav-link::after{
+  content:"";position:absolute;left:0;bottom:-3px;height:2px;width:0;
+  background:var(--bright-blue);transition:width .25s ease
+}
+.navbar-nav .nav-link:hover::after{width:100%}
+
+
+.scrolled .custom-navbar{
+  background-color:rgba(255,255,255,.98);
+  box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
     
     /* Profile Header */
     .profile-header {
@@ -65,6 +284,7 @@
       margin-bottom: 2rem;
       position: relative;
       overflow: hidden;
+      padding-top: 300px;
     }
     
     .profile-header::before {
@@ -388,25 +608,26 @@
 </head>
 <body>
   <!-- Header/Navbar -->
-  <header class="shadow-sm">
+  <div class="background-container"></div> 
+
+  
+   <header class="shadow-sm">
     <nav class="navbar navbar-expand-lg bg-white-95 fixed-top custom-navbar" id="mainNavbar">
       <div class="container-fluid px-2 px-sm-3 px-lg-4">
-        <a class="navbar-brand d-flex align-items-center me-auto brand-left" href="index.html">
-          <img src="logo.svg" alt="Crece Diseño" class="brand-logo" />
+        
+        <a class="navbar-brand d-flex align-items-center me-auto brand-left" href="../index.html">
+          <img src="../recursos/logo.svg" alt="Crece Diseño" class="brand-logo" />
         </a>
-
-        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
-                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler ms-2 mobile-menu-btn" type="button" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-
-        <div class="collapse navbar-collapse" id="mainNav">
+        <div class="navbar-collapse" id="mainNav">
           <ul class="navbar-nav ms-auto align-items-lg-center">
-            <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="../index.html">Inicio</a></li>
             <li class="nav-item"><a class="nav-link" href="cursos.html">Cursos</a></li>
-            <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
+            <li class="nav-item"><a class="nav-link" href="../html/nosotros.html">Nosotros</a></li>
             <li class="nav-item"><a class="nav-link" href="foro.html">Foro</a></li>
-            <li class="nav-item"><a class="nav-link active" href="usuario.html">Mi Perfil</a></li>
+            <li class="nav-item"><a class="nav-link" href="../html/usuario.html">Mi Perfil</a></li>
           </ul>
         </div>
       </div>
@@ -774,6 +995,262 @@
       duration: 800,
       once: true
     });
+    let lastScrollTop = 0;
+let ticking = false;
+
+function updateHeader() {
+  const navbar = document.getElementById('mainNavbar');
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  
+  if (scrollTop > 100) {
+    navbar.classList.add('navbar-scrolled');
+  } else {
+    navbar.classList.remove('navbar-scrolled');
+  } 
+  
+  if (scrollTop > lastScrollTop && scrollTop > 100 && lastScrollTop !== 0) {
+  navbar.classList.add('navbar-hidden');
+} else {
+  navbar.classList.remove('navbar-hidden');
+}
+  
+  lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+  ticking = false;
+}
+
+function requestTick() {
+  if (!ticking) {
+    requestAnimationFrame(updateHeader);
+    ticking = true;
+  }
+}
+
+function showWelcomeOverlay() {
+  const overlay = document.getElementById('welcomeOverlay');
+  overlay.classList.remove('hidden');
+  
+  setTimeout(() => {
+    overlay.classList.add('hidden');
+    setTimeout(showRegisterModal, 500);
+  }, 1000); 
+}
+
+function showRegisterModal() {
+  if (localStorage.getItem('usuarioRegistrado') === 'true') {
+    return;
+  }
+  const modal = document.getElementById('registerModal');
+  modal.classList.add('active');
+}
+
+function closeRegisterModal() {
+  const modal = document.getElementById('registerModal');
+  modal.classList.remove('active');
+}
+
+function validateForm(form) {
+  const nombre = form.querySelector('#nombre');
+  const email = form.querySelector('#correo');
+  const phone = form.querySelector('#telefono');
+  const city = form.querySelector('#ciudad');
+  let isValid = true;
+
+  form.querySelectorAll('.error-message').forEach(el => el.remove());
+  form.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-invalid'));
+
+  const regexNombre = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]{3,100}$/;
+
+  if (!regexNombre.test(nombre.value.trim())) {
+    showError(nombre, 'Ingresa un nombre válido (solo letras y espacios).');
+    isValid = false;
+  }
+
+  const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const regexPhone = /^\+?\d{10,15}$/; 
+  const regexCity = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]{3,50}$/; 
+
+  if (!regexEmail.test(email.value.trim())) {
+    showError(email, 'Ingresa un correo electrónico válido.');
+    isValid = false;
+  }
+
+  if (!regexPhone.test(phone.value.trim())) {
+    showError(phone, 'Ingresa un número telefónico válido (solo números y signo +).');
+    isValid = false;
+  }
+
+  if (!regexCity.test(city.value.trim())) {
+    showError(city, 'La ciudad solo puede contener letras y espacios (3 a 50 caracteres).');
+    isValid = false;
+  }
+
+  return isValid;
+}
+
+function showError(input, message) {
+  input.classList.add('is-invalid');
+  const error = document.createElement('div');
+  error.className = 'error-message text-danger mt-1 small';
+  error.textContent = message;
+  input.parentNode.appendChild(error);
+}
+
+function submitForm(form) {
+  if (!validateForm(form)) return false;
+
+  const submitBtn = form.querySelector('.register-btn');
+  const originalText = submitBtn.textContent;
+  submitBtn.disabled = true;
+
+  const datos = new FormData(form);
+
+  fetch('php/registrar.php', {
+    method: 'POST',
+    body: datos
+  })
+  .then(res => res.text())
+  .then(msg => {
+    console.log('Respuesta PHP:', msg);
+
+    if (msg.trim().startsWith('EXITO') || msg.trim().toUpperCase().includes('EXITO') || msg.trim().includes('✅')) {
+      localStorage.setItem('usuarioRegistrado', 'true');
+      submitBtn.innerHTML = 'Registro Exitoso';
+      form.reset();
+      setTimeout(() => {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        closeRegisterModal();
+      }, 1500);
+    } else {
+      alert(msg);
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    }
+  })
+  .catch(() => {
+    alert('Error de red al registrar.');
+    submitBtn.textContent = originalText;
+    submitBtn.disabled = false;
+  });
+
+  return false;
+}
+
+function initSmoothScroll() {
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        e.preventDefault();
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+          navbarToggler.click();
+        }
+        const headerHeight = document.querySelector('.custom-navbar').offsetHeight;
+        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+        setTimeout(() => {
+          setActiveNavLink();
+        }, 800);
+      }
+    });
+  });
+}
+
+function setActiveNavLink() {
+  const currentSection = getCurrentSection();
+  const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+  
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    const href = link.getAttribute('href');
+    if (href === `#${currentSection}` || 
+        (currentSection === 'inicio' && (href === '#inicio' || href === 'index.html' || href === '/')) ||
+        (href.includes('cursos.html') && currentSection === 'cursos')) {
+      link.classList.add('active');
+    }
+  });
+}
+
+function getCurrentSection() {
+  const sections = document.querySelectorAll('section[id]');
+  let currentSection = 'inicio';
+  const scrollPosition = window.pageYOffset + 150; 
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    const sectionHeight = section.clientHeight;
+    const sectionId = section.getAttribute('id');
+    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+      currentSection = sectionId;
+    }
+  });
+  return currentSection;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  window.addEventListener('scroll', requestTick, { passive: true });
+  window.addEventListener('scroll', setActiveNavLink);
+  showWelcomeOverlay();
+
+  document.getElementById('registerClose').addEventListener('click', closeRegisterModal);
+  document.getElementById('registerModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+      closeRegisterModal();
+    }
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeRegisterModal();
+    }
+  });
+  document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    submitForm(this);
+  });
+  initSmoothScroll();
+  setActiveNavLink();
+  document.querySelectorAll('.team-member').forEach(member => {
+    member.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateY(-5px)';
+    });
+    member.addEventListener('mouseleave', function() {
+      this.style.transform = 'translateY(0)';
+    });
+  });
+  const navbarToggler = document.querySelector('.navbar-toggler');
+  if (navbarToggler) {
+    navbarToggler.addEventListener('click', function() {
+      const expanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !expanded);
+    });
+  }
+});
+
+document.addEventListener('submit', function(e) {
+  if (e.target.tagName === 'FORM' && !e.target.hasAttribute('novalidate')) {
+    e.preventDefault();
+  }
+});
+
+function handleImageError(img) {
+  img.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIG5vdCBmb3VuZDwvdGV4dD48L3N2Zz4=';
+  img.alt = 'Imagen no disponible';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', function() {
+      handleImageError(this);
+    });
+  });
+});
+
   </script>
 </body>
 </html>
