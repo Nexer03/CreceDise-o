@@ -114,6 +114,7 @@ $nombre_usuario = $_SESSION['nombre'] ?? 'Usuario';
                     <a href="cursos.html">Cursos</a>
                     <a href="../index.html#nosotros">Nosotros</a>
                     <a href="foro.html">Foro</a>
+                    <a href="../html/usuario.html">Mi Perfil</a>
                 </div>
                 <div class="footer-col">
                     <h3>Cursos</h3>
