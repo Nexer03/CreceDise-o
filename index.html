@@ -36,6 +36,20 @@
         <p>Completa tus datos para acceder a nuestro catálogo completo</p>
       </div>
       <form id="registerForm" action="/php/registrar.php" method="POST" novalidate>
+          <div class="form-group">
+          <label for="correo">Nombre Completo</label>
+          <input
+            type="text"
+            name="nombre"
+            id="nombre"
+            class="form-control"
+            placeholder="Juan Pérez"
+            required
+            maxlength="100"
+            pattern="^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]{3,100}$"
+            title="Solo letras y espacios (3 a 100 caracteres)"
+          />
+        </div>
          <div class="form-group">
           <label for="correo">Correo Electrónico</label>
           <input

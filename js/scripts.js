@@ -58,6 +58,7 @@ function closeRegisterModal() {
 }
 
 function validateForm(form) {
+  const nombre = form.querySelector('#nombre');
   const email = form.querySelector('#correo');
   const phone = form.querySelector('#telefono');
   const city = form.querySelector('#ciudad');
@@ -65,6 +66,13 @@ function validateForm(form) {
 
   form.querySelectorAll('.error-message').forEach(el => el.remove());
   form.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-invalid'));
+
+  const regexNombre = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\s]{3,100}$/;
+
+  if (!regexNombre.test(nombre.value.trim())) {
+    showError(nombre, 'Ingresa un nombre válido (solo letras y espacios).');
+    isValid = false;
+  }
 
   const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const regexPhone = /^\+?\d{10,15}$/; 
