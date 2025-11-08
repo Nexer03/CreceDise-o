@@ -258,7 +258,7 @@ $nombre_usuario = $_SESSION['nombre'] ?? 'Usuario';
 
         const replyToggle = document.createElement('button');
         replyToggle.type = 'button';
-        replyToggle.className = 'btn';
+        replyToggle.className = 'btn_reply';
         replyToggle.style.marginTop = '10px';
         replyToggle.textContent = 'Responder';
 

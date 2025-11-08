@@ -1084,7 +1084,7 @@ textarea.form-control {
   box-shadow: none !important;
 }
 /* Botón de responder */
-.btn {
+.btn_reply {
   background: none;
   border: none;
   color: #5a5a5a;
@@ -1096,18 +1096,18 @@ textarea.form-control {
   transition: all 0.2s ease;
 }
 
-.btn:hover {
+.btn_reply:hover {
   color: #4a73ff;
   background-color: #eef2ff;
 }
 
-.btn:active {
+.btn_reply:active {
   transform: scale(0.97);
 }
 .replies .reply {
   background-color: #f9f9ff; 
   border-left: 2px solid #c7d2fe; 
-  border-radius: 6px;
+  border-radius: 8px;
   margin-top: 10px;
   padding: 10px 14px;
 }
