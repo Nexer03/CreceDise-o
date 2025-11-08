@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mi Perfil - Crece Diseño</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary-color: #4a6cf7;
+      --secondary-color: #6a75f8;
+      --accent-color: #8a63f9;
+      --text-dark: #1e1e2c;
+      --text-light: #6c757d;
+      --bg-light: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+    
+    body {
+      font-family: 'Quicksand', sans-serif;
+      color: var(--text-dark);
+      background-color: var(--bg-light);
+      line-height: 1.6;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+    }
+    
+    /* Header/Navbar */
+    .custom-navbar {
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 0.8rem 0;
+    }
+    
+    .brand-logo {
+      height: 40px;
+      width: auto;
+    }
+    
+    .nav-link {
+      font-weight: 500;
+      color: var(--text-dark);
+      margin: 0 0.5rem;
+      transition: color 0.3s;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+      color: var(--primary-color);
+    }
+    
+    /* Profile Header */
+    .profile-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      color: white;
+      padding: 4rem 0 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .profile-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffffff" opacity="0.1"><path d="M500 50c100 0 200-25 300-25s200 25 300 25v50H0V50c100 0 200-25 300-25S500 50 500 50z"/></svg>') no-repeat bottom;
+      background-size: cover;
+    }
+    
+    .profile-container {
+      position: relative;
+      z-index: 1;
+    }
+    
+    .profile-avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 5px solid white;
+      object-fit: cover;
+      box-shadow: var(--shadow);
+    }
+    
+    .profile-name {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 1rem 0 0.5rem;
+    }
+    
+    .profile-title {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 1rem;
+    }
+    
+    .profile-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 1.5rem 0;
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: block;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    .profile-actions {
+      margin-top: 1.5rem;
+    }
+    
+    .btn-edit {
+      background-color: white;
+      color: var(--primary-color);
+      border: none;
+      border-radius: 50px;
+      padding: 0.5rem 1.5rem;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    
+    .btn-edit:hover {
+      background-color: var(--bg-light);
+      transform: translateY(-2px);
+    }
+    
+    /* Main Content */
+    .profile-content {
+      padding: 2rem 0;
+    }
+    
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+      transition: transform 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card-header {
+      background-color: white;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      padding: 1.25rem 1.5rem;
+      border-radius: 12px 12px 0 0 !important;
+    }
+    
+    .card-title {
+      font-weight: 600;
+      margin: 0;
+      color: var(--text-dark);
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+    }
+    
+    /* About Section */
+    .about-text {
+      line-height: 1.7;
+      color: var(--text-light);
+    }
+    
+    /* Skills Section */
+    .skill-item {
+      margin-bottom: 1rem;
+    }
+    
+    .skill-name {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    
+    .skill-bar {
+      height: 8px;
+      background-color: #e9ecef;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    
+    .skill-level {
+      height: 100%;
+      background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+      border-radius: 4px;
+    }
+    
+    /* Courses Section */
+    .course-card {
+      border-radius: 10px;
+      overflow: hidden;
+      transition: all 0.3s;
+      height: 100%;
+    }
+    
+    .course-img {
+      height: 140px;
+      background-color: var(--primary-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+    }
+    
+    .course-info {
+      padding: 1.25rem;
+    }
+    
+    .course-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .course-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 0.75rem;
+    }
+    
+    .progress {
+      height: 6px;
+      margin-bottom: 1rem;
+    }
+    
+    .badge-completed {
+      background-color: #28a745;
+    }
+    
+    .badge-in-progress {
+      background-color: var(--primary-color);
+    }
+    
+    /* Experience Section */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background-color: #e9ecef;
+    }
+    
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2rem;
+      top: 5px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+    }
+    
+    .timeline-date {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 0.25rem;
+    }
+    
+    .timeline-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    
+    .timeline-company {
+      color: var(--primary-color);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: var(--text-dark);
+      color: white;
+      padding: 3rem 0 1.5rem;
+      margin-top: 3rem;
+    }
+    
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .footer-col h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: white;
+    }
+    
+    .footer-col a {
+      display: block;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 0.5rem;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-col a:hover {
+      color: white;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: white;
+      transition: all 0.3s;
+    }
+    
+    .social-link:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-3px);
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .profile-name {
+        font-size: 2rem;
+      }
+      
+      .profile-stats {
+        gap: 1rem;
+      }
+      
+      .stat-number {
+        font-size: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header/Navbar -->
+  <header class="shadow-sm">
+    <nav class="navbar navbar-expand-lg bg-white-95 fixed-top custom-navbar" id="mainNavbar">
+      <div class="container-fluid px-2 px-sm-3 px-lg-4">
+        <a class="navbar-brand d-flex align-items-center me-auto brand-left" href="index.html">
+          <img src="logo.svg" alt="Crece Diseño" class="brand-logo" />
+        </a>
+
+        <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+            <li class="nav-item"><a class="nav-link" href="cursos.html">Cursos</a></li>
+            <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
+            <li class="nav-item"><a class="nav-link" href="foro.html">Foro</a></li>
+            <li class="nav-item"><a class="nav-link active" href="usuario.html">Mi Perfil</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Profile Header -->
+  <section class="profile-header">
+    <div class="container profile-container">
+      <div class="text-center">
+        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" 
+             alt="Foto de perfil" class="profile-avatar">
+        <h1 class="profile-name"> Pedro García Rodríguez</h1>
+        <p class="profile-title">Diseñador Gráfica & Ilustradora</p>
+        <p class="w-75 mx-auto">Especializado en diseño de marca, ilustración digital y diseño UX/UI. Apasionado por crear experiencias visuales que conecten con las audiencias.</p>
+        
+        <div class="profile-stats">
+          <div class="stat-item">
+            <span class="stat-number">24</span>
+            <span class="stat-label">Cursos</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">18</span>
+            <span class="stat-label">Completados</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">6</span>
+            <span class="stat-label">En progreso</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Certificaciones</span>
+          </div>
+        </div>
+        
+        <div class="profile-actions">
+          <button class="btn btn-edit"><i class="fas fa-edit me-2"></i> Editar Perfil</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="profile-content">
+    <div class="container">
+      <div class="row">
+        <!-- Left Column -->
+        <div class="col-lg-8">
+          <!-- About Section -->
+          <div class="card" data-aos="fade-up">
+            <div class="card-header">
+              <h3 class="card-title">Acerca de mí</h3>
+            </div>
+            <div class="card-body">
+              <p class="about-text">
+                Diseñadora gráfica con 5 años de experiencia especializada en branding, ilustración digital y diseño UX/UI. 
+                Me apasiona crear identidades visuales que cuentan historias y resuelven problemas de comunicación.
+              </p>
+              <p class="about-text">
+                Actualmente trabajo como diseñadora senior en una agencia digital, donde lidero proyectos de diseño 
+                para clientes internacionales. Mi enfoque combina creatividad, estrategia y atención al detalle para 
+                entregar soluciones visuales efectivas.
+              </p>
+              <p class="about-text">
+                Estoy constantemente actualizando mis habilidades a través de los cursos de Crece Diseño, 
+                explorando nuevas tendencias y técnicas en el mundo del diseño.
+              </p>
+            </div>
+          </div>
+
+          <!-- Courses Section -->
+          <div class="card" data-aos="fade-up" data-aos-delay="100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h3 class="card-title">Mis Cursos</h3>
+              <a href="cursos.html" class="btn btn-sm btn-outline-primary">Ver todos</a>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <!-- Course 1 -->
+                <div class="col-md-6">
+                  <div class="course-card card">
+                    <div class="course-img">
+                      <i class="fas fa-palette"></i>
+                    </div>
+                    <div class="course-info">
+                      <h5 class="course-title">Diseño de Marca e Identidad Visual</h5>
+                      <div class="course-meta">
+                        <span>12 horas</span>
+                        <span class="badge badge-completed">Completado</span>
+                      </div>
+                      <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                      </div>
+                      <small class="text-muted">Finalizado: 15 Mar 2023</small>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Course 2 -->
+                <div class="col-md-6">
+                  <div class="course-card card">
+                    <div class="course-img">
+                      <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="course-info">
+                      <h5 class="course-title">Diseño UX/UI para Aplicaciones Móviles</h5>
+                      <div class="course-meta">
+                        <span>18 horas</span>
+                        <span class="badge badge-in-progress">En progreso</span>
+                      </div>
+                      <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 65%"></div>
+                      </div>
+                      <small class="text-muted">65% completado</small>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Course 3 -->
+                <div class="col-md-6">
+                  <div class="course-card card">
+                    <div class="course-img">
+                      <i class="fas fa-pencil-alt"></i>
+                    </div>
+                    <div class="course-info">
+                      <h5 class="course-title">Ilustración Digital con Procreate</h5>
+                      <div class="course-meta">
+                        <span>10 horas</span>
+                        <span class="badge badge-completed">Completado</span>
+                      </div>
+                      <div class="progress">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"></div>
+                      </div>
+                      <small class="text-muted">Finalizado: 02 Ene 2023</small>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Course 4 -->
+                <div class="col-md-6">
+                  <div class="course-card card">
+                    <div class="course-img">
+                      <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="course-info">
+                      <h5 class="course-title">Diseño de Infografías y Visualización de Datos</h5>
+                      <div class="course-meta">
+                        <span>14 horas</span>
+                        <span class="badge badge-in-progress">En progreso</span>
+                      </div>
+                      <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 30%"></div>
+                      </div>
+                      <small class="text-muted">30% completado</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Experience Section -->
+          <div class="card" data-aos="fade-up" data-aos-delay="200">
+            <div class="card-header">
+              <h3 class="card-title">Experiencia Profesional</h3>
+            </div>
+            <div class="card-body">
+              <div class="timeline">
+                <!-- Experience 1 -->
+                <div class="timeline-item">
+                  <div class="timeline-date">2021 - Presente</div>
+                  <h4 class="timeline-title">Diseñadora Senior</h4>
+                  <div class="timeline-company">Estudio Creativo Digital</div>
+                  <p>Lidero proyectos de diseño de marca y experiencia de usuario para clientes internacionales. Superviso un equipo de 3 diseñadores junior.</p>
+                </div>
+                
+                <!-- Experience 2 -->
+                <div class="timeline-item">
+                  <div class="timeline-date">2019 - 2021</div>
+                  <h4 class="timeline-title">Diseñadora Gráfica</h4>
+                  <div class="timeline-company">Agencia Branding Solutions</div>
+                  <p>Diseñé identidades visuales, material promocional y sitios web para pequeñas y medianas empresas.</p>
+                </div>
+                
+                <!-- Experience 3 -->
+                <div class="timeline-item">
+                  <div class="timeline-date">2017 - 2019</div>
+                  <h4 class="timeline-title">Diseñadora Junior</h4>
+                  <div class="timeline-company">Estudio de Diseño Visual</div>
+                  <p>Asistí en proyectos de diseño editorial, ilustración y diseño web bajo la supervisión de diseñadores senior.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="col-lg-4">
+          <!-- Contact Info -->
+          <div class="card mb-4" data-aos="fade-left">
+            <div class="card-header">
+              <h3 class="card-title">Información de Contacto</h3>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <strong><i class="fas fa-envelope me-2 text-primary"></i> Email</strong>
+                <p class="mb-0">ana.garcia@ejemplo.com</p>
+              </div>
+              <div class="mb-3">
+                <strong><i class="fas fa-phone me-2 text-primary"></i> Teléfono</strong>
+                <p class="mb-0">+52 322 555 7890</p>
+              </div>
+              <div class="mb-3">
+                <strong><i class="fas fa-map-marker-alt me-2 text-primary"></i> Ubicación</strong>
+                <p class="mb-0">Puerto Vallarta, Jalisco, México</p>
+              </div>
+              <div class="mb-3">
+                <strong><i class="fas fa-globe me-2 text-primary"></i> Sitio Web</strong>
+                <p class="mb-0">www.anagarcia-design.com</p>
+              </div>
+              <div>
+                <strong><i class="fas fa-calendar-alt me-2 text-primary"></i> Miembro desde</strong>
+                <p class="mb-0">Enero 2022</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Skills -->
+          <div class="card mb-4" data-aos="fade-left" data-aos-delay="100">
+            <div class="card-header">
+              <h3 class="card-title">Habilidades</h3>
+            </div>
+            <div class="card-body">
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>Diseño de Marca</span>
+                  <span>95%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-level" style="width: 95%"></div>
+                </div>
+              </div>
+              
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>Ilustración Digital</span>
+                  <span>90%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-level" style="width: 90%"></div>
+                </div>
+              </div>
+              
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>Diseño UX/UI</span>
+                  <span>85%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-level" style="width: 85%"></div>
+                </div>
+              </div>
+              
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>Adobe Creative Suite</span>
+                  <span>95%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-level" style="width: 95%"></div>
+                </div>
+              </div>
+              
+              <div class="skill-item">
+                <div class="skill-name">
+                  <span>Figma</span>
+                  <span>80%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-level" style="width: 80%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certifications -->
+          <div class="card" data-aos="fade-left" data-aos-delay="200">
+            <div class="card-header">
+              <h3 class="card-title">Certificaciones</h3>
+            </div>
+            <div class="card-body">
+              <div class="mb-3">
+                <h5 class="mb-1">Especialista en Diseño de Marca</h5>
+                <p class="mb-1 text-muted">Crece Diseño</p>
+                <small class="text-muted">Obtenida: Marzo 2023</small>
+              </div>
+              
+              <div class="mb-3">
+                <h5 class="mb-1">Diseñador UX/UI Avanzado</h5>
+                <p class="mb-1 text-muted">Crece Diseño</p>
+                <small class="text-muted">Obtenida: Enero 2023</small>
+              </div>
+              
+              <div>
+                <h5 class="mb-1">Ilustrador Digital Profesional</h5>
+                <p class="mb-1 text-muted">Crece Diseño</p>
+                <small class="text-muted">Obtenida: Noviembre 2022</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-container">
+        <div class="footer-col">
+          <h3>Crece Diseño</h3>
+          <p>Catálogo de Formación para diseñadores gráficos en Puerto Vallarta.</p>
+          <div class="social-links">
+            <a href="https://www.instagram.com/crece_diseno?igsh=MWRtNHlvaGs4dmt0dA==" class="social-link" target="_blank" rel="noopener" aria-label="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.tiktok.com/@mambeturouch?_r=1&_t=ZS-918cYzJJefC" class="social-link" target="_blank" rel="noopener" aria-label="TikTok">
+              <i class="fab fa-tiktok"></i>
+            </a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h3>Enlaces Rápidos</h3>
+          <a href="index.html">Inicio</a>
+          <a href="cursos.html">Cursos</a>
+          <a href="nosotros.html">Nosotros</a>
+          <a href="index.html#contacto">Contacto</a>
+        </div>
+        <div class="footer-col">
+          <h3>Cursos</h3>
+          <a href="cursos.html#gratuitos">Cursos Gratuitos</a>
+          <a href="cursos.html#paga">Cursos de Paga</a>
+          <a href="#">Certificaciones</a>
+          <a href="#">Talleres</a>
+        </div>
+        <div class="footer-col">
+          <h3>Contacto</h3>
+          <p>contacto@crecediseño.com</p>
+          <p>+52 322 123 4567</p>
+          <p>Puerto Vallarta, Jalisco</p>
+        </div>
+      </div>
+      <div class="copyright">
+        <p>&copy; 2023 Crece Diseño. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    // Initialize AOS animations
+    AOS.init({
+      duration: 800,
+      once: true
+    });
+  </script>
+</body>
+</html>
