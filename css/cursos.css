@@ -878,5 +878,38 @@ body.cursos-page{ padding-top: var(--nav-height); }
 }
 
 .hero.hero-cursos .hero-content{
-  margin-top: 0; /* prevenir empujes extra */
+  margin-top: 0; 
+}
+
+
+/* ===== Gestión de visibilidad por pestañas y filtros ===== */
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
+
+
+.subcategory-content {
+  display: none;
+}
+.subcategory-content.active {
+  display: block;
+}
+
+
+.course-card {
+  display: none;
+}
+.tab-content.active .subcategory-content.active .course-card {
+  display: flex;
+}
+
+
+#financiamiento .financing-item {
+  display: none;
+}
+#financiamiento.active .financing-item {
+  display: block;
 }

@@ -1094,138 +1094,207 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    
+        <script>
+        // ====== Helpers ======
+        const $ = (sel, ctx=document) => ctx.querySelector(sel);
+        const $$ = (sel, ctx=document) => Array.from(ctx.querySelectorAll(sel));
+
+        function getActiveTabId() {
+        return $('.tab-btn.active')?.dataset.tab || 'gratuitos';
+        }
+        function getActiveSubId() {
+        const tabId = getActiveTabId();
+        const activeSubBtn = $(`#${tabId} .subcategory-btn.active`);
+        return activeSubBtn ? activeSubBtn.dataset.subcategory
+                            : $(`#${tabId} .subcategory-btn`)?.dataset.subcategory;
+        }
+        function textIncludes(el, term){
+        return (el?.textContent || '').toLowerCase().includes(term);
+        }
+
+        // Lee modalidad y costo de la lista .course-details
+        function readMeta(card){
+        const details = card.querySelector('.course-details');
+        const txt = (details?.textContent || '').toLowerCase();
+        const modalidad = txt.includes('presencial') ? 'presencial'
+                            : txt.includes('en línea') || txt.includes('en linea') ? 'en-linea'
+                            : 'desconocida';
+        const costo = txt.includes('gratuito') ? 'gratuito'
+                    : txt.includes('paga') || txt.includes('variable') || txt.includes('$') ? 'paga'
+                    : 'otro';
+        const cats = (card.dataset.category || '').toLowerCase();
+        return { modalidad, costo, cats, raw: txt };
+        }
+
+        // ====== Núcleo de filtrado ======
+        function applyFilters() {
+        const searchTerm = ($('.search-input')?.value || '').toLowerCase().trim();
+        const activeFilter = $('.filter-btn.active')?.dataset.filter || 'all';
+        const tabId = getActiveTabId();
+        const subId = getActiveSubId();
+
+        const activeSub = document.getElementById(subId);
+        const cards = $$('.course-card', activeSub || document);
+
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const title = card.querySelector('h3');
+            const desc  = card.querySelector('.course-description');
+            const meta  = readMeta(card);
+
+            // Búsqueda
+            const matchSearch =
+            !searchTerm ||
+            textIncludes(title, searchTerm) ||
+            textIncludes(desc,  searchTerm) ||
+            meta.raw.includes(searchTerm);
+
+            // Filtro por botón
+            let matchFilter = true;
+            if (activeFilter !== 'all') {
+            if (activeFilter === 'presencial' || activeFilter === 'en-linea') {
+                matchFilter = (meta.modalidad === activeFilter);
+            } else if (activeFilter === 'gratuito' || activeFilter === 'paga') {
+                matchFilter = (meta.costo === activeFilter);
+            } else {
+                // categoría
+                matchFilter = meta.cats.includes(activeFilter) || meta.raw.includes(activeFilter);
+            }
+            }
+
+            const show = matchSearch && matchFilter;
+            card.style.display = show ? 'flex' : 'none';
+            if (show) visibleCount++;
+        });
+
+        toggleNoResults(activeSub, visibleCount === 0);
+
+        // Importante: el tab de financiamiento no se filtra con esta lógica
+        }
+
+        // ====== Mostrar/ocultar mensaje de “sin resultados” ======
+        function toggleNoResults(container, show) {
+        if (!container) return;
+        let msg = container.querySelector('.no-results');
+        if (show) {
+            if (!msg) {
+            msg = document.createElement('div');
+            msg.className = 'no-results';
+            msg.textContent = 'No se encontraron cursos que coincidan con tu búsqueda.';
+            container.appendChild(msg);
+            }
+        } else if (msg) {
+            msg.remove();
+        }
+        }
+
+        // ====== Gestión de tabs y subcategorías ======
+        function ensureDefaults() {
+        if (!$('.tab-btn.active')) {
+            const firstTab = $('.tab-btn');
+            firstTab?.classList.add('active');
+            document.getElementById(firstTab.dataset.tab)?.classList.add('active');
+        } else {
+            $$('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(getActiveTabId())?.classList.add('active');
+        }
+
+        const tabId = getActiveTabId();
+        const tabEl = document.getElementById(tabId);
+        if (tabEl) {
+            const currentActiveSubBtn = $('.subcategory-btn.active', tabEl) || $('.subcategory-btn', tabEl);
+            $$('.subcategory-btn', tabEl).forEach(b => b.classList.remove('active'));
+            currentActiveSubBtn?.classList.add('active');
+
+            const subId = getActiveSubId();
+            $$('.subcategory-content', tabEl).forEach(c => c.classList.remove('active'));
+            document.getElementById(subId)?.classList.add('active');
+        }
+        }
+
+        function resetFilterButtonsToAll() {
+        const allBtn = $('.filter-btn[data-filter="all"]');
+        if (allBtn) {
+            $$('.filter-btn').forEach(b => b.classList.remove('active'));
+            allBtn.classList.add('active');
+        }
+        }
+
+        // ====== Eventos ======
+        document.addEventListener('DOMContentLoaded', () => {
+        ensureDefaults();
+        resetFilterButtonsToAll();
+        applyFilters();
+
+        // Tabs
+        $$('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+            $$('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            $$('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(btn.dataset.tab)?.classList.add('active');
+
+            const firstSub = $(`#${btn.dataset.tab} .subcategory-btn`);
+            $$('#' + btn.dataset.tab + ' .subcategory-btn').forEach(b => b.classList.remove('active'));
+            firstSub?.classList.add('active');
+
+            $$('#' + btn.dataset.tab + ' .subcategory-content').forEach(c => c.classList.remove('active'));
+            const firstSubId = firstSub?.dataset.subcategory;
+            if (firstSubId) document.getElementById(firstSubId)?.classList.add('active');
+
+            resetFilterButtonsToAll();
+            applyFilters();
+            });
+        });
+
+        // Subcategorías
+        $$('.subcategory-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+            const tab = btn.closest('.tab-content');
+            $$('.subcategory-btn', tab).forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            $$('.subcategory-content', tab).forEach(c => c.classList.remove('active'));
+            document.getElementById(btn.dataset.subcategory)?.classList.add('active');
+            applyFilters();
+            });
+        });
+
+        // Filtros (categorías, presencial/en línea, etc.)
+        $$('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+            $$('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyFilters();
+            });
+        });
+
+        // Búsqueda
+        const searchInput = $('.search-input');
+        const searchBtn = $('.search-btn');
+        searchBtn?.addEventListener('click', applyFilters);
+        searchInput?.addEventListener('input', applyFilters);
+        });
+        </script>
+
     <script>
-AOS.init();
 
-// Navbar sticky
-(function(){
-  const navbar = document.getElementById('mainNavbar');
-  let lastY = window.scrollY;
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    navbar.classList.toggle('navbar-scrolled', y > 120);
-    navbar.classList.toggle('navbar-hidden', y > lastY && y > 180);
-    lastY = y;
-  }, { passive: true });
-})();
-
-// --- FILTROS Y BÚSQUEDA ---
-const searchInput = document.querySelector('.search-input');
-const searchBtn = document.querySelector('.search-btn');
-const filterButtons = document.querySelectorAll('.filter-btn');
-
-
-function applySearchAndFilter() {
-  const searchTerm = searchInput.value.toLowerCase().trim();
-  const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
-  const activeTab = document.querySelector('.tab-content.active');
-  const activeSub = activeTab.querySelector('.subcategory-content.active');
-  const cards = activeSub.querySelectorAll('.course-card');
-
-  let visibleCount = 0;
-
-  cards.forEach(card => {
-    const text = (card.querySelector('h3').textContent + ' ' + card.querySelector('.course-description').textContent).toLowerCase();
-    const categories = card.dataset.category.toLowerCase();
-
-    const matchesSearch = !searchTerm || text.includes(searchTerm);
-    const matchesFilter = activeFilter === 'all' || categories.includes(activeFilter);
-    const visible = matchesSearch && matchesFilter;
-
-    card.style.display = visible ? 'flex' : 'none';
-    if (visible) visibleCount++;
-  });
-
-  showNoResultsMessage(activeSub, visibleCount === 0);
-}
-
-
-function resetSearchAndFilters() {
-  searchInput.value = '';
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
-  applySearchAndFilter();
-}
-
-
-function showNoResultsMessage(container, show) {
-  let msg = container.querySelector('.no-results');
-  if (show) {
-    if (!msg) {
-      msg = document.createElement('div');
-      msg.className = 'no-results';
-      msg.textContent = 'No se encontraron cursos que coincidan con tu búsqueda.';
-      container.appendChild(msg);
-    }
-  } else if (msg) {
-    msg.remove();
-  }
-}
-
-
-filterButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterButtons.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    applySearchAndFilter();
-  });
-});
-searchBtn.addEventListener('click', applySearchAndFilter);
-searchInput.addEventListener('input', applySearchAndFilter);
-
-
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.tab).classList.add('active');
-    const firstSub = document.querySelector(`#${btn.dataset.tab} .subcategory-btn`);
-    if (firstSub) firstSub.click();
-    resetSearchAndFilters();
-  });
-});
-
-// Subcategorías
-document.querySelectorAll('.subcategory-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const parent = btn.closest('.tab-content');
-    parent.querySelectorAll('.subcategory-btn').forEach(b => b.classList.remove('active'));
-    parent.querySelectorAll('.subcategory-content').forEach(c => c.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById(btn.dataset.subcategory).classList.add('active');
-    resetSearchAndFilters();
-  });
-});
-
-// IDEFT scroll helper
-window.navigateToIDEFT = function() {
-  document.querySelector('.tab-btn[data-tab="gratuitos"]').click();
-  setTimeout(() => {
-    document.querySelector('.subcategory-btn[data-subcategory="presencial-gratuito"]').click();
-    setTimeout(() => {
-      const card = [...document.querySelectorAll('.course-card h3')].find(h3 => h3.textContent.includes('IDEFT'));
-      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 300);
-  }, 300);
-};
-
-// Hash navigation (#gratuitos, #paga)
-window.addEventListener('DOMContentLoaded', () => {
-  const hash = location.hash.slice(1);
-  if (hash) {
-    const tab = document.querySelector(`.tab-btn[data-tab="${hash}"]`);
-    if (tab) tab.click();
-  }
-});
-
-// --- SISTEMA DE SEGUIMIENTO DE CURSOS ---
-document.addEventListener('DOMContentLoaded', function() {
-  // Cargar cursos seleccionados desde localStorage
-  loadSelectedCourses();
-  
-  // Manejar selección de cursos
-  document.querySelectorAll('.course-checkbox').forEach(checkbox => {
+    AOS.init();
+    (function(){
+    const navbar = document.getElementById('mainNavbar');
+    let lastY = window.scrollY;
+    window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        navbar.classList.toggle('navbar-scrolled', y > 120);
+        navbar.classList.toggle('navbar-hidden', y > lastY && y > 180);
+        lastY = y;
+    }, { passive: true });
+    })();
+    
+    document.addEventListener('DOMContentLoaded', function() {
+    loadSelectedCourses();
+    document.querySelectorAll('.course-checkbox').forEach(checkbox => {
     checkbox.addEventListener('change', function() {
       const courseId = this.getAttribute('data-course-id');
       const courseCard = this.closest('.course-card');
